@@ -6,14 +6,12 @@
   <meta name="theme-color" content="#0d0d0d" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <title>AN SHOP — Servicios Digitales</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
 
   <style>
-    /* =============================================
-       CSS VARIABLES
-    ============================================= */
     :root {
       --gold:    #c9a84c;
       --gold2:   #e8d48b;
@@ -23,6 +21,8 @@
       --card:    #181818;
       --txt:     #f0f0f0;
       --muted:   #888888;
+      --red:     #e03232;
+      --red2:    #ff5555;
       --radius:  12px;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bot: env(safe-area-inset-bottom, 0px);
@@ -32,10 +32,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html {
-      scroll-behavior: smooth;
-      -webkit-text-size-adjust: 100%;
-    }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -44,22 +41,34 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      /* iOS momentum scroll */
+      -webkit-overflow-scrolling: touch;
     }
 
     /* =============================================
        KEYFRAMES
     ============================================= */
-    @keyframes fadeUp    { from { opacity:0; transform:translateY(28px) } to { opacity:1; transform:translateY(0) } }
-    @keyframes fadeIn    { from { opacity:0 } to { opacity:1 } }
-    @keyframes pulse     { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
-    @keyframes marquee   { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-    @keyframes float     { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-    @keyframes tgPulse   { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)} 70%{box-shadow:0 0 0 14px rgba(201,168,76,0)} }
-    @keyframes shimmer   { from{background-position:-400px 0} to{background-position:400px 0} }
-    @keyframes slideIn   { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
-    @keyframes slideOut  { from{transform:translateX(0);opacity:1} to{transform:translateX(100%);opacity:0} }
-    @keyframes barGrow   { from{width:0} to{width:var(--bar-w, 0%)} }
-    @keyframes spin      { to{transform:rotate(360deg)} }
+    @keyframes fadeUp     { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeDown   { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn     { from{opacity:0} to{opacity:1} }
+    @keyframes pulse      { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+    @keyframes marquee    { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @keyframes float      { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    @keyframes tgPulse    { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)} 70%{box-shadow:0 0 0 14px rgba(201,168,76,0)} }
+    @keyframes redPulse   { 0%,100%{box-shadow:0 0 0 0 rgba(224,50,50,.6)} 70%{box-shadow:0 0 0 18px rgba(224,50,50,0)} }
+    @keyframes spin       { to{transform:rotate(360deg)} }
+    @keyframes shimmer    { 0%{background-position:-400px 0} 100%{background-position:400px 0} }
+    @keyframes glowGold   { 0%,100%{text-shadow:0 0 8px rgba(201,168,76,.4)} 50%{text-shadow:0 0 24px rgba(201,168,76,.9),0 0 40px rgba(201,168,76,.3)} }
+    @keyframes slideRight { from{transform:translateX(-60px);opacity:0} to{transform:translateX(0);opacity:1} }
+    @keyframes slideLeft  { from{transform:translateX(60px);opacity:0} to{transform:translateX(0);opacity:1} }
+    @keyframes bounceIn   { 0%{transform:scale(.5);opacity:0} 60%{transform:scale(1.08)} 80%{transform:scale(.97)} 100%{transform:scale(1);opacity:1} }
+    @keyframes shake      { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+    @keyframes warnBlink  { 0%,100%{opacity:1} 50%{opacity:.6} }
+    @keyframes logoFloat  { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-8px) rotate(1deg)} }
+    @keyframes borderSpin { to{transform:rotate(360deg)} }
+    @keyframes countUp    { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes ripple     { 0%{transform:scale(0);opacity:.6} 100%{transform:scale(4);opacity:0} }
+    @keyframes constructAnim { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
 
     .anim   { opacity:0; animation: fadeUp .65s ease forwards; }
     .anim-1 { animation-delay:.08s }
@@ -67,6 +76,111 @@
     .anim-3 { animation-delay:.34s }
     .anim-4 { animation-delay:.5s }
     .anim-5 { animation-delay:.65s }
+
+    /* =============================================
+       ★ POPUP DE ENTRADA (IMPORTANTE)
+       Para cambiar el texto: buscá id="popup-message-text"
+    ============================================= */
+    .popup-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.88);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      animation: fadeIn .4s ease;
+    }
+    .popup-box {
+      background: #111;
+      border: 2px solid var(--red);
+      border-radius: 18px;
+      max-width: 480px;
+      width: 100%;
+      padding: 2rem 1.75rem 1.75rem;
+      position: relative;
+      animation: bounceIn .55s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 0 60px rgba(224,50,50,.3), 0 20px 60px rgba(0,0,0,.6);
+      /* iOS tap fix */
+      -webkit-transform: translateZ(0);
+    }
+    /* Animated border glow */
+    .popup-box::before {
+      content:'';
+      position:absolute; inset:-2px;
+      border-radius:18px;
+      background: linear-gradient(90deg, var(--red), #ff8800, var(--red), #ff8800);
+      background-size: 300% 100%;
+      z-index:-1;
+      animation: shimmer 2.5s linear infinite;
+      opacity:.7;
+    }
+    .popup-warn-icon {
+      width: 58px; height: 58px;
+      background: rgba(224,50,50,.12);
+      border: 2px solid var(--red);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.6rem;
+      animation: redPulse 2s ease-in-out infinite;
+    }
+    .popup-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--red);
+      text-align: center;
+      letter-spacing: .12em;
+      margin-bottom: .3rem;
+      animation: warnBlink 2s ease infinite;
+    }
+    .popup-subtitle {
+      font-size: .7rem;
+      color: rgba(224,50,50,.6);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      margin-bottom: 1.4rem;
+    }
+    .popup-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      margin-bottom: 1.2rem;
+    }
+    /* ★ ESTE ES EL TEXTO QUE PODÉS MODIFICAR */
+    #popup-message-text {
+      font-size: .93rem;
+      color: #ddd;
+      line-height: 1.85;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding: 0 .25rem;
+    }
+    .popup-close-btn {
+      width: 100%;
+      background: var(--red);
+      color: white;
+      border: none;
+      padding: .9rem 1rem;
+      border-radius: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: .1em;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .popup-close-btn:hover { background: var(--red2); transform: scale(1.02); }
+    .popup-close-btn:active { transform: scale(.98); }
+    .popup-note {
+      font-size: .7rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: .85rem;
+    }
 
     /* =============================================
        TELEGRAM FLOAT BUTTON
@@ -78,20 +192,26 @@
       z-index: 999;
       background: var(--gold);
       color: var(--dark);
-      width: 56px;
-      height: 56px;
+      width: 58px; height: 58px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       text-decoration: none;
       box-shadow: 0 4px 20px rgba(201,168,76,.45);
       animation: tgPulse 2.2s ease-in-out infinite;
       transition: transform .2s, background .2s;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .tg-float:hover, .tg-float:active { transform: scale(1.12); background: var(--gold2); }
     .tg-float svg { width: 27px; height: 27px; fill: var(--dark); }
+    /* Ripple effect on tap */
+    .tg-float::after {
+      content:''; position:absolute; inset:0;
+      border-radius:50%;
+      background:rgba(255,255,255,.35);
+      transform:scale(0);
+    }
+    .tg-float:active::after { animation: ripple .4s ease; }
 
     /* =============================================
        NAVBAR
@@ -101,730 +221,703 @@
       justify-content: space-between;
       align-items: center;
       padding: .9rem 2.5rem;
-      background: rgba(13,13,13,.92);
+      background: rgba(13,13,13,.95);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(201,168,76,.12);
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      transition: background .3s;
+      position: sticky; top: 0; z-index: 200;
+      transition: background .3s, box-shadow .3s;
       padding-top: calc(.9rem + var(--safe-top));
       padding-left: calc(2.5rem + var(--safe-l));
       padding-right: calc(2.5rem + var(--safe-r));
     }
-    .logo-wrap { display: flex; align-items: center; gap: .6rem; text-decoration: none; }
-    .logo-img  { height: 38px; width: 38px; object-fit: contain; border-radius: 8px; }
-    .logo      { font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem; color: var(--gold); letter-spacing: 3px; line-height: 1; }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.5); }
+    .logo-wrap { display:flex; align-items:center; gap:.6rem; text-decoration:none; }
+    .logo { font-family:'Bebas Neue',sans-serif; font-size:1.7rem; color:var(--gold); letter-spacing:3px; line-height:1; animation: glowGold 3s ease infinite; }
 
-    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links { display:flex; gap:1.75rem; list-style:none; }
     .nav-links a {
-      color: var(--muted);
-      font-size: .75rem;
-      text-decoration: none;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      transition: color .2s;
-      position: relative;
-      padding-bottom: 2px;
+      color:var(--muted); font-size:.75rem; text-decoration:none;
+      letter-spacing:.12em; text-transform:uppercase; transition:color .2s;
+      position:relative; padding-bottom:2px;
     }
-    .nav-links a::after {
-      content:''; position:absolute; bottom:0; left:0;
-      width:0; height:1px; background:var(--gold);
-      transition: width .3s;
-    }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-links a:hover::after { width: 100%; }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-links a:hover::after { width:100%; }
 
     .nav-btn {
-      background: var(--gold);
-      color: var(--dark);
-      padding: .45rem 1.2rem;
-      border-radius: 6px;
-      font-size: .75rem;
-      font-weight: 700;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      transition: transform .15s, background .2s;
-      letter-spacing: .05em;
-      -webkit-tap-highlight-color: transparent;
+      background:var(--gold); color:var(--dark); padding:.45rem 1.2rem;
+      border-radius:6px; font-size:.75rem; font-weight:700; text-decoration:none;
+      display:flex; align-items:center; gap:.4rem;
+      transition:transform .15s, background .2s; letter-spacing:.05em;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
     }
-    .nav-btn:hover { transform: scale(1.05); background: var(--gold2); }
-    .nav-btn svg  { width: 14px; height: 14px; fill: var(--dark); }
+    .nav-btn:hover { transform:scale(1.05); background:var(--gold2); }
+    .nav-btn svg { width:14px; height:14px; fill:var(--dark); }
 
-    /* ── Hamburger ── */
     .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 26px;
-      height: 18px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
+      display:none; flex-direction:column; justify-content:space-between;
+      width:26px; height:18px; background:none; border:none;
+      cursor:pointer; padding:0; -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
     }
-    .hamburger span {
-      display: block;
-      height: 2px;
-      background: var(--gold);
-      border-radius: 2px;
-      transition: transform .3s, opacity .3s;
-    }
-    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .hamburger span { display:block; height:2px; background:var(--gold); border-radius:2px; transition:transform .3s, opacity .3s; }
+    .hamburger.open span:nth-child(1) { transform:translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:translateY(-8px) rotate(-45deg); }
 
-    /* ── Mobile menu ── */
     .mobile-menu {
-      position: fixed;
-      top: 0; right: 0; bottom: 0;
-      width: min(320px, 85vw);
-      background: var(--mid);
-      border-left: 1px solid rgba(201,168,76,.15);
-      z-index: 300;
-      display: flex;
-      flex-direction: column;
-      padding: calc(5rem + var(--safe-top)) 2rem 2rem;
-      gap: .5rem;
-      transform: translateX(100%);
-      transition: transform .35s cubic-bezier(.4,0,.2,1);
-      box-shadow: -20px 0 60px rgba(0,0,0,.6);
+      position:fixed; top:0; right:0; bottom:0;
+      width:min(320px,85vw); background:var(--mid);
+      border-left:1px solid rgba(201,168,76,.15); z-index:300;
+      display:flex; flex-direction:column;
+      padding:calc(5rem + var(--safe-top)) 2rem 2rem;
+      gap:.5rem; transform:translateX(100%);
+      transition:transform .35s cubic-bezier(.4,0,.2,1);
+      box-shadow:-20px 0 60px rgba(0,0,0,.6);
+      overflow-y:auto; -webkit-overflow-scrolling:touch;
     }
-    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu.open { transform:translateX(0); }
     .mobile-menu a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      padding: .85rem 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      transition: color .2s;
-      display: flex;
-      align-items: center;
-      gap: .6rem;
+      color:var(--muted); text-decoration:none; font-size:1rem;
+      text-transform:uppercase; letter-spacing:.12em; padding:.85rem 0;
+      border-bottom:1px solid rgba(255,255,255,.06); transition:color .2s;
+      display:flex; align-items:center; gap:.6rem;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
     }
-    .mobile-menu a:last-of-type { border-bottom: none; }
-    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu a:last-of-type { border-bottom:none; }
+    .mobile-menu a:hover { color:var(--gold); }
     .mobile-menu .mob-tg {
-      margin-top: auto;
-      background: var(--gold);
-      color: var(--dark);
-      text-align: center;
-      padding: .9rem 1rem;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: .9rem;
-      border: none;
-      justify-content: center;
-      letter-spacing: .05em;
+      margin-top:auto; background:var(--gold); color:var(--dark);
+      text-align:center; padding:.9rem 1rem; border-radius:8px;
+      font-weight:700; font-size:.9rem; border:none;
+      justify-content:center; letter-spacing:.05em;
     }
-    .mobile-menu .mob-tg:hover { background: var(--gold2); }
+    .mobile-menu .mob-tg:hover { background:var(--gold2); }
     .menu-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.55);
-      z-index: 250;
-      display: none;
+      position:fixed; inset:0; background:rgba(0,0,0,.55);
+      z-index:250; display:none;
     }
-    .menu-overlay.open { display: block; }
+    .menu-overlay.open { display:block; }
 
     /* =============================================
        HERO
     ============================================= */
     .hero {
-      position: relative;
-      overflow: hidden;
-      min-height: clamp(520px, 88vh, 900px);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding: 5rem 2.5rem 4rem;
-      align-items: center;
-      gap: 3rem;
+      position:relative; overflow:hidden;
+      min-height:clamp(520px,88vh,900px);
+      display:grid; grid-template-columns:1fr 1fr;
+      padding:5rem 2.5rem 4rem;
+      align-items:center; gap:3rem;
     }
-    #particles-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      pointer-events: none; z-index: 0;
+    /* Animated gradient background */
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,168,76,.06) 0%, transparent 60%),
+                  radial-gradient(ellipse 60% 80% at 80% 30%, rgba(201,168,76,.04) 0%, transparent 60%);
+      pointer-events:none; z-index:0;
     }
-    .hero-left, .hero-right { position: relative; z-index: 1; }
+    #particles-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+    .hero-left, .hero-right { position:relative; z-index:1; }
 
     .hero-eyebrow {
-      font-size: .7rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: .9rem;
-      display: flex;
-      align-items: center;
-      gap: .5rem;
+      font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:.9rem;
+      display:flex; align-items:center; gap:.5rem;
     }
-    .hero-eyebrow::before {
-      content:''; display:block; width:28px; height:1px; background:var(--gold);
-    }
+    .hero-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
+
     .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 8vw, 7rem);
-      line-height: .92;
-      color: white;
-      margin-bottom: 1.4rem;
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(4rem,8vw,7rem); line-height:.92;
+      color:white; margin-bottom:1.4rem;
+      animation: glowGold 4s ease infinite;
     }
-    .hero-title .outline {
-      -webkit-text-stroke: 2px var(--gold);
-      color: transparent;
-      display: block;
-    }
-    .hero-sub {
-      font-size: .92rem;
-      color: var(--muted);
-      line-height: 1.85;
-      max-width: 400px;
-      margin-bottom: 2rem;
-    }
+    .hero-title .outline { -webkit-text-stroke:2px var(--gold); color:transparent; display:block; }
+    .hero-sub { font-size:.92rem; color:var(--muted); line-height:1.85; max-width:400px; margin-bottom:2rem; }
+    .hero-actions { display:flex; gap:.9rem; flex-wrap:wrap; }
 
-    .hero-actions { display: flex; gap: .9rem; flex-wrap: wrap; }
     .btn-gold {
-      background: var(--gold);
-      color: var(--dark);
-      padding: .85rem 1.9rem;
-      border-radius: 6px;
-      font-size: .83rem;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-block;
-      animation: pulse 3.2s ease infinite;
-      letter-spacing: .04em;
-      -webkit-tap-highlight-color: transparent;
-      transition: background .2s;
+      background:var(--gold); color:var(--dark); padding:.85rem 1.9rem;
+      border-radius:6px; font-size:.83rem; font-weight:700; text-decoration:none;
+      display:inline-block; animation:pulse 3.2s ease infinite; letter-spacing:.04em;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+      transition:background .2s; position:relative; overflow:hidden;
     }
-    .btn-gold:hover { background: var(--gold2); }
+    .btn-gold::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,.15); transform:translateX(-100%); transition:transform .3s; }
+    .btn-gold:hover::after { transform:translateX(0); }
+    .btn-gold:hover { background:var(--gold2); }
+
     .btn-tg {
-      background: transparent;
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      padding: .85rem 1.9rem;
-      border-radius: 6px;
-      font-size: .83rem;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      transition: background .2s, color .2s;
-      -webkit-tap-highlight-color: transparent;
+      background:transparent; border:1px solid var(--gold); color:var(--gold);
+      padding:.85rem 1.9rem; border-radius:6px; font-size:.83rem; font-weight:600;
+      text-decoration:none; display:inline-flex; align-items:center; gap:.5rem;
+      transition:background .2s, color .2s;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
     }
-    .btn-tg:hover { background: var(--gold); color: var(--dark); }
-    .btn-tg svg { width: 16px; height: 16px; fill: currentColor; }
+    .btn-tg:hover { background:var(--gold); color:var(--dark); }
+    .btn-tg svg { width:16px; height:16px; fill:currentColor; }
 
-    .hero-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .85rem;
-      margin-top: 2rem;
-    }
+    .hero-stats { display:grid; grid-template-columns:1fr 1fr; gap:.85rem; margin-top:2rem; }
     .stat {
-      background: rgba(255,255,255,.04);
-      border-radius: 10px;
-      padding: 1rem 1.1rem;
-      border: 1px solid rgba(201,168,76,.15);
-      backdrop-filter: blur(4px);
+      background:rgba(255,255,255,.04); border-radius:10px; padding:1rem 1.1rem;
+      border:1px solid rgba(201,168,76,.15); backdrop-filter:blur(4px);
+      transition:transform .3s, border-color .3s;
     }
-    .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--gold); }
-    .stat-l { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-top: .15rem; }
+    .stat:hover { transform:translateY(-4px); border-color:rgba(201,168,76,.4); }
+    .stat-n { font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--gold); }
+    .stat-l { font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:.15rem; }
 
-    /* ── Hero Image ── */
     .hero-img {
-      background: rgba(26,26,26,.8);
-      border-radius: 16px;
-      aspect-ratio: 4/5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(201,168,76,.2);
-      overflow: hidden;
-      animation: float 5.5s ease-in-out infinite;
-      box-shadow: 0 40px 80px rgba(0,0,0,.6), inset 0 0 60px rgba(201,168,76,.04);
+      background:rgba(26,26,26,.8); border-radius:16px; aspect-ratio:4/5;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(201,168,76,.2); overflow:hidden;
+      animation:float 5.5s ease-in-out infinite;
+      box-shadow:0 40px 80px rgba(0,0,0,.6), inset 0 0 60px rgba(201,168,76,.04);
     }
     .hero-img img { width:100%; height:100%; object-fit:cover; }
     .badge-new {
-      position: absolute; top: 1.1rem; left: 1.1rem;
-      background: var(--gold); color: var(--dark);
-      font-size: .68rem; font-weight: 700;
-      padding: .28rem .75rem; border-radius: 50px;
-      letter-spacing: .07em;
+      position:absolute; top:1.1rem; left:1.1rem;
+      background:var(--gold); color:var(--dark);
+      font-size:.68rem; font-weight:700; padding:.28rem .75rem;
+      border-radius:50px; letter-spacing:.07em;
+      animation: pulse 2s ease infinite;
     }
 
     /* =============================================
        TICKER
     ============================================= */
-    .ticker {
-      background: var(--gold);
-      color: var(--dark);
-      padding: .55rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .ticker-inner { display: inline-flex; animation: marquee 22s linear infinite; }
-    .ticker-item  { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: .16em; padding: 0 2.5rem; }
-    .ticker-dot   { opacity: .45; padding: 0 .4rem; }
+    .ticker { background:var(--gold); color:var(--dark); padding:.55rem 0; overflow:hidden; white-space:nowrap; }
+    .ticker-inner { display:inline-flex; animation:marquee 18s linear infinite; }
+    .ticker-item { font-family:'Bebas Neue',sans-serif; font-size:1.05rem; letter-spacing:.16em; padding:0 2.5rem; }
+    .ticker-dot { opacity:.45; padding:0 .4rem; }
 
     /* =============================================
-       TRUST SECTION
+       TRUST
     ============================================= */
-    .trust-section {
-      padding: 3rem 2.5rem;
-      background: var(--mid);
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 1.1rem;
-    }
+    .trust-section { padding:3rem 2.5rem; background:var(--mid); border-top:1px solid rgba(255,255,255,.06); }
+    .trust-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.1rem; }
     .trust-card {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: var(--radius);
-      padding: 1.4rem 1.1rem;
-      text-align: center;
-      transition: border-color .25s, transform .25s;
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius); padding:1.4rem 1.1rem; text-align:center;
+      transition:border-color .25s, transform .25s, box-shadow .25s;
     }
-    .trust-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-    .trust-icon { font-size: 1.9rem; margin-bottom: .55rem; }
-    .trust-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; color: var(--gold); letter-spacing: .06em; margin-bottom: .3rem; }
-    .trust-desc  { font-size: .76rem; color: var(--muted); line-height: 1.6; }
+    .trust-card:hover { border-color:var(--gold); transform:translateY(-6px); box-shadow:0 12px 30px rgba(201,168,76,.12); }
+    .trust-icon { font-size:1.9rem; margin-bottom:.55rem; }
+    .trust-title { font-family:'Bebas Neue',sans-serif; font-size:1.05rem; color:var(--gold); letter-spacing:.06em; margin-bottom:.3rem; }
+    .trust-desc { font-size:.76rem; color:var(--muted); line-height:1.6; }
 
     /* =============================================
        PRODUCTS
     ============================================= */
-    .products { padding: 5rem 2.5rem; }
-    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
-    .section-title  { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,4vw,3rem); color: white; line-height: 1; }
-    .section-title span { color: var(--gold); }
-    .see-all { color: var(--gold); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: opacity .2s; }
-    .see-all:hover { opacity: .75; }
+    .products { padding:5rem 2.5rem; }
+    .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; }
+    .section-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3rem); color:white; line-height:1; }
+    .section-title span { color:var(--gold); }
+    .see-all { color:var(--gold); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px; transition:opacity .2s; }
+    .see-all:hover { opacity:.75; }
 
-    .products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+    .products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; }
 
-    /* ── Card flip ── */
+    /* ── LOGOS SVG inline ── */
+    .logo-binance {
+      display:flex; align-items:center; justify-content:center;
+      width:100%; height:100%;
+    }
+    .logo-paypal {
+      display:flex; align-items:center; justify-content:center;
+      width:100%; height:100%;
+    }
+    .logo-card {
+      display:flex; align-items:center; justify-content:center;
+      width:100%; height:100%;
+    }
+    .logo-software {
+      display:flex; align-items:center; justify-content:center;
+      width:100%; height:100%;
+    }
+
+    /* Card */
     .product-card {
-      perspective: 900px;
-      cursor: pointer;
-      height: 360px;
-      -webkit-tap-highlight-color: transparent;
+      perspective:900px; cursor:pointer; height:360px;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
     }
     .card-inner {
-      position: relative;
-      width: 100%; height: 100%;
-      transition: transform .55s cubic-bezier(.4,0,.2,1);
-      transform-style: preserve-3d;
+      position:relative; width:100%; height:100%;
+      transition:transform .55s cubic-bezier(.4,0,.2,1);
+      transform-style:preserve-3d;
     }
-    .product-card:hover .card-inner { transform: rotateY(180deg); }
-    /* Touch flip */
-    .product-card.flipped .card-inner { transform: rotateY(180deg); }
+    .product-card:hover .card-inner { transform:rotateY(180deg); }
+    .product-card.flipped .card-inner { transform:rotateY(180deg); }
 
     .card-front, .card-back {
-      position: absolute; inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.07);
+      position:absolute; inset:0; backface-visibility:hidden;
+      -webkit-backface-visibility:hidden; border-radius:var(--radius);
+      overflow:hidden; display:flex; flex-direction:column;
+      background:var(--card); border:1px solid rgba(255,255,255,.07);
     }
+    .card-front { transition:border-color .3s; }
+    .card-front:hover { border-color:rgba(201,168,76,.3); }
     .card-back {
-      transform: rotateY(180deg);
-      padding: 1.5rem;
-      justify-content: center;
-      align-items: flex-start;
-      gap: .9rem;
-      background: linear-gradient(135deg, #1e1a10 0%, #111 100%);
-      border-color: var(--gold);
+      transform:rotateY(180deg); padding:1.5rem;
+      justify-content:center; align-items:flex-start; gap:.9rem;
+      background:linear-gradient(135deg,#1e1a10 0%,#111 100%);
+      border-color:var(--gold);
     }
-    .card-back-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; color: var(--gold); line-height: 1.1; }
-    .card-back-desc  { font-size: .81rem; color: #bbb; line-height: 1.7; }
-    .card-back-price { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: white; }
+    .card-back-title { font-family:'Bebas Neue',sans-serif; font-size:1.35rem; color:var(--gold); line-height:1.1; }
+    .card-back-desc { font-size:.81rem; color:#bbb; line-height:1.7; }
+    .card-back-price { font-family:'Bebas Neue',sans-serif; font-size:2rem; color:white; }
 
     .product-img {
-      aspect-ratio: 16/9;
-      background: #111;
-      display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden;
+      aspect-ratio:16/9; background:#111;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
     }
+    /* shimmer on hover */
+    .product-img::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);
+      background-size:200% 100%; opacity:0; transition:opacity .3s;
+      animation:shimmer 1.8s linear infinite;
+    }
+    .card-front:hover .product-img::after { opacity:1; }
+
     .product-img img { width:100%; height:100%; object-fit:contain; padding:.9rem; }
     .product-badge {
-      position: absolute; top: .65rem; right: .65rem;
-      background: var(--gold); color: var(--dark);
-      font-size: .62rem; font-weight: 700;
-      padding: .22rem .58rem; border-radius: 50px;
+      position:absolute; top:.65rem; right:.65rem;
+      background:var(--gold); color:var(--dark);
+      font-size:.62rem; font-weight:700; padding:.22rem .58rem; border-radius:50px;
+      animation:pulse 2.5s ease infinite;
     }
-    .product-info   { padding: 1rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-    .product-cat    { font-size: .62rem; color: var(--gold); text-transform: uppercase; letter-spacing: .13em; margin-bottom: .3rem; }
-    .product-name   { font-weight: 600; font-size: .93rem; color: white; margin-bottom: .5rem; line-height: 1.35; }
-    .product-row    { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
-    .product-price  { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; color: var(--gold); }
+    .product-info { padding:1rem; flex:1; display:flex; flex-direction:column; justify-content:space-between; }
+    .product-cat { font-size:.62rem; color:var(--gold); text-transform:uppercase; letter-spacing:.13em; margin-bottom:.3rem; }
+    .product-name { font-weight:600; font-size:.93rem; color:white; margin-bottom:.5rem; line-height:1.35; }
+    .product-row { display:flex; justify-content:space-between; align-items:center; gap:.5rem; }
+    .product-price { font-family:'Bebas Neue',sans-serif; font-size:1.25rem; color:var(--gold); }
     .btn-cart {
-      background: transparent;
-      border: 1px solid #444;
-      color: white;
-      padding: .38rem .85rem;
-      border-radius: 5px;
-      font-size: .7rem;
-      cursor: pointer;
-      transition: background .2s, border-color .2s, color .2s;
-      text-decoration: none;
-      white-space: nowrap;
+      background:transparent; border:1px solid #444; color:white;
+      padding:.38rem .85rem; border-radius:5px; font-size:.7rem; cursor:pointer;
+      transition:background .2s, border-color .2s, color .2s; text-decoration:none;
+      white-space:nowrap; -webkit-tap-highlight-color:transparent; touch-action:manipulation;
     }
-    .btn-cart:hover { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+    .btn-cart:hover { background:var(--gold); border-color:var(--gold); color:var(--dark); }
 
     /* =============================================
        ABOUT
     ============================================= */
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: var(--mid);
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
+    .about { display:grid; grid-template-columns:1fr 1fr; background:var(--mid); border-top:1px solid rgba(255,255,255,.06); }
     .about-img-box {
-      background: #111;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 460px;
-      border-right: 1px solid rgba(255,255,255,.06);
-      overflow: hidden;
+      background:#111; display:flex; align-items:center; justify-content:center;
+      min-height:460px; border-right:1px solid rgba(255,255,255,.06); overflow:hidden;
     }
     .about-img-box img { width:100%; height:100%; object-fit:cover; }
-    .about-content { padding: 4.5rem 3rem; display: flex; flex-direction: column; justify-content: center; }
-    .about-num { font-family: 'Bebas Neue', sans-serif; font-size: 7rem; color: rgba(255,255,255,.06); line-height: 1; margin-bottom: -1.2rem; }
-    .about-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,3.5vw,2.8rem); color: white; margin-bottom: 1.2rem; line-height: 1.1; }
-    .about-title em { color: var(--gold); font-style: normal; }
-    .about-body { color: var(--muted); font-size: .9rem; line-height: 1.9; margin-bottom: 2rem; }
-    .about-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .tag-pill { background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.22); color: #ccc; font-size: .72rem; padding: .35rem .9rem; border-radius: 50px; transition: background .2s; }
-    .tag-pill:hover { background: rgba(201,168,76,.18); }
+    .about-content { padding:4.5rem 3rem; display:flex; flex-direction:column; justify-content:center; }
+    .about-num { font-family:'Bebas Neue',sans-serif; font-size:7rem; color:rgba(255,255,255,.06); line-height:1; margin-bottom:-1.2rem; }
+    .about-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,3.5vw,2.8rem); color:white; margin-bottom:1.2rem; line-height:1.1; }
+    .about-title em { color:var(--gold); font-style:normal; }
+    .about-body { color:var(--muted); font-size:.9rem; line-height:1.9; margin-bottom:2rem; }
+    .about-tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .tag-pill { background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.22); color:#ccc; font-size:.72rem; padding:.35rem .9rem; border-radius:50px; transition:background .2s, transform .2s; }
+    .tag-pill:hover { background:rgba(201,168,76,.18); transform:scale(1.04); }
 
     /* =============================================
-       DETAILS SECTION
+       DETAILS
     ============================================= */
-    .details-section {
-      padding: 5rem 2.5rem;
-      background: var(--mid);
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
-    .details-header { margin-bottom: 2.5rem; }
-    .details-subtitle { color: var(--muted); font-size: .92rem; margin-top: .75rem; line-height: 1.6; }
+    .details-section { padding:5rem 2.5rem; background:var(--mid); border-top:1px solid rgba(255,255,255,.06); }
+    .details-header { margin-bottom:2.5rem; }
+    .details-subtitle { color:var(--muted); font-size:.92rem; margin-top:.75rem; line-height:1.6; }
     .detail-card {
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      gap: 1.5rem;
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 14px;
-      padding: 2rem;
-      margin-bottom: 1.25rem;
-      transition: border-color .25s, transform .25s;
+      display:grid; grid-template-columns:60px 1fr; gap:1.5rem;
+      background:var(--card); border:1px solid rgba(255,255,255,.07);
+      border-radius:14px; padding:2rem; margin-bottom:1.25rem;
+      transition:border-color .25s, transform .25s, box-shadow .25s;
     }
-    .detail-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .detail-card:hover { border-color:var(--gold); transform:translateY(-3px); box-shadow:0 12px 40px rgba(201,168,76,.08); }
     .detail-icon {
-      width: 54px; height: 54px;
-      background: rgba(201,168,76,.08);
-      border: 1px solid rgba(201,168,76,.2);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gold); flex-shrink: 0;
+      width:54px; height:54px; background:rgba(201,168,76,.08);
+      border:1px solid rgba(201,168,76,.2); border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--gold); flex-shrink:0;
     }
-    .detail-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.55rem; color: white; margin-bottom: 1rem; letter-spacing: .03em; }
-    .detail-body p { color: var(--muted); font-size: .9rem; line-height: 1.9; margin-bottom: .9rem; }
-    .detail-body ul { list-style: none; margin: .75rem 0; display: flex; flex-direction: column; gap: .45rem; }
-    .detail-body ul li { color: #ccc; font-size: .87rem; line-height: 1.7; }
-    .detail-note {
-      background: rgba(201,168,76,.05);
-      border-left: 3px solid var(--gold);
-      border-radius: 0 8px 8px 0;
-      padding: .85rem 1.2rem;
-      margin-top: 1.1rem;
-      font-size: .84rem; color: #bbb; line-height: 1.7;
-    }
-    .detail-note strong { color: var(--gold); }
+    .detail-title { font-family:'Bebas Neue',sans-serif; font-size:1.55rem; color:white; margin-bottom:1rem; letter-spacing:.03em; }
+    .detail-body p { color:var(--muted); font-size:.9rem; line-height:1.9; margin-bottom:.9rem; }
+    .detail-body ul { list-style:none; margin:.75rem 0; display:flex; flex-direction:column; gap:.45rem; }
+    .detail-body ul li { color:#ccc; font-size:.87rem; line-height:1.7; }
+    .detail-note { background:rgba(201,168,76,.05); border-left:3px solid var(--gold); border-radius:0 8px 8px 0; padding:.85rem 1.2rem; margin-top:1.1rem; font-size:.84rem; color:#bbb; line-height:1.7; }
+    .detail-note strong { color:var(--gold); }
 
     /* =============================================
        PROGRESS BARS
     ============================================= */
-    .progress-section {
-      padding: 4rem 2.5rem;
-      background: var(--dark);
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
-    .progress-header { margin-bottom: 2.2rem; }
-    .progress-items  { display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px; }
-    .progress-labels { display: flex; justify-content: space-between; margin-bottom: .5rem; }
-    .progress-label  { font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; color: #bbb; }
-    .progress-val    { font-size: .78rem; color: var(--gold); font-weight: 700; }
-    .progress-bar-bg { background: rgba(255,255,255,.06); border-radius: 50px; height: 7px; overflow: hidden; }
+    .progress-section { padding:4rem 2.5rem; background:var(--dark); border-top:1px solid rgba(255,255,255,.06); }
+    .progress-header { margin-bottom:2.2rem; }
+    .progress-items { display:flex; flex-direction:column; gap:1.5rem; max-width:800px; }
+    .progress-labels { display:flex; justify-content:space-between; margin-bottom:.5rem; }
+    .progress-label { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:#bbb; }
+    .progress-val { font-size:.78rem; color:var(--gold); font-weight:700; }
+    .progress-bar-bg { background:rgba(255,255,255,.06); border-radius:50px; height:7px; overflow:hidden; }
     .progress-bar-fill {
-      height: 100%; border-radius: 50px;
-      background: linear-gradient(90deg, var(--gold), var(--gold2));
-      width: 0; transition: width 1.5s cubic-bezier(.4,0,.2,1);
+      height:100%; border-radius:50px;
+      background:linear-gradient(90deg,var(--gold),var(--gold2));
+      width:0; transition:width 1.5s cubic-bezier(.4,0,.2,1);
     }
+
+    /* =============================================
+       ★ COMING SOON / EN CONSTRUCCIÓN
+    ============================================= */
+    .construction-section {
+      padding:4.5rem 2.5rem;
+      background:var(--mid);
+      border-top:1px solid rgba(192, 192, 192, 0.06);
+      border-bottom:1px solid rgba(255, 0, 0, 0.06);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .construction-section::before {
+      content:'';
+      position:absolute; inset:0;
+      background:repeating-linear-gradient(
+        45deg,
+        transparent, transparent 18px,
+        rgba(201,168,76,.025) 18px, rgba(94, 36, 231, 0.025) 36px
+      );
+      pointer-events:none;
+    }
+    .construction-icon {
+      font-size:3.2rem;
+      display:block;
+      margin-bottom:1rem;
+      animation:constructAnim 2.5s ease-in-out infinite;
+      filter:drop-shadow(0 0 16px rgba(201,168,76,.4));
+    }
+    .construction-badge {
+      display:inline-block;
+      background:rgba(201,168,76,.1);
+      border:1px solid rgba(201,168,76,.3);
+      color:var(--gold);
+      font-size:.65rem;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      padding:.35rem 1rem;
+      border-radius:50px;
+      margin-bottom:1.1rem;
+      animation:pulse 3s ease infinite;
+    }
+    .construction-title {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(2rem,6vw,3.5rem);
+      color:white;
+      line-height:1.05;
+      margin-bottom:.75rem;
+      position:relative; z-index:1;
+    }
+    .construction-title span { color:var(--gold); }
+    .construction-sub {
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.8;
+      max-width:520px;
+      margin:0 auto 2rem;
+    }
+
+    /* Progress bar "coming soon" */
+    .cs-progress-wrap { max-width:380px; margin:0 auto 2rem; }
+    .cs-progress-label {
+      display:flex; justify-content:space-between;
+      font-size:.72rem; color:var(--muted); margin-bottom:.5rem;
+      text-transform:uppercase; letter-spacing:.08em;
+    }
+    .cs-bar-bg { background:rgba(255,255,255,.06); border-radius:50px; height:8px; overflow:hidden; }
+    .cs-bar-fill {
+      height:100%; border-radius:50px; width:72%;
+      background:linear-gradient(90deg,var(--gold3),var(--gold),var(--gold2));
+      background-size:200% 100%;
+      animation:shimmer 2s linear infinite;
+    }
+
+    /* Dots loader */
+    .cs-dots { display:flex; justify-content:center; gap:.6rem; margin-top:1.75rem; }
+    .cs-dot {
+      width:9px; height:9px; border-radius:50%;
+      background:var(--gold); opacity:.3;
+      animation:pulse 1.4s ease-in-out infinite;
+    }
+    .cs-dot:nth-child(2) { animation-delay:.2s; }
+    .cs-dot:nth-child(3) { animation-delay:.4s; }
+    .cs-dot:nth-child(4) { animation-delay:.6s; }
+
+    .cs-tg-btn {
+      display:inline-flex; align-items:center; gap:.6rem;
+      background:transparent; border:1px solid var(--gold); color:var(--gold);
+      padding:.75rem 1.6rem; border-radius:8px; font-size:.82rem; font-weight:600;
+      text-decoration:none; transition:background .2s, color .2s;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    }
+    .cs-tg-btn:hover { background:var(--gold); color:var(--dark); }
+    .cs-tg-btn svg { width:16px; height:16px; fill:currentColor; }
 
     /* =============================================
        FAQ
     ============================================= */
-    .faq-section {
-      padding: 5rem 2.5rem;
-      background: var(--dark);
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
-    .faq-header { margin-bottom: 2.5rem; }
-    .faq-subtitle { color: var(--muted); font-size: .9rem; margin-top: .5rem; }
-    .faq-item {
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: var(--radius);
-      margin-bottom: .7rem;
-      overflow: hidden;
-      transition: border-color .25s;
-    }
-    .faq-item.open { border-color: rgba(201,168,76,.5); }
+    .faq-section { padding:5rem 2.5rem; background:var(--dark); border-top:1px solid rgba(255,255,255,.06); }
+    .faq-header { margin-bottom:2.5rem; }
+    .faq-subtitle { color:var(--muted); font-size:.9rem; margin-top:.5rem; }
+    .faq-item { border:1px solid rgba(255,255,255,.07); border-radius:var(--radius); margin-bottom:.7rem; overflow:hidden; transition:border-color .25s; }
+    .faq-item.open { border-color:rgba(201,168,76,.5); }
     .faq-q {
-      width: 100%; background: var(--card); border: none;
-      color: var(--txt); font-family: 'Inter', sans-serif;
-      font-size: .93rem; font-weight: 600;
-      padding: 1.1rem 1.4rem;
-      display: flex; justify-content: space-between; align-items: center;
-      cursor: pointer; text-align: left; gap: 1rem;
-      transition: background .2s;
-      -webkit-tap-highlight-color: transparent;
+      width:100%; background:var(--card); border:none; color:var(--txt);
+      font-family:'Inter',sans-serif; font-size:.93rem; font-weight:600;
+      padding:1.1rem 1.4rem; display:flex; justify-content:space-between;
+      align-items:center; cursor:pointer; text-align:left; gap:1rem;
+      transition:background .2s; -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation; min-height:56px;
     }
-    .faq-q:hover { background: rgba(255,255,255,.03); }
+    .faq-q:hover { background:rgba(255,255,255,.03); }
     .faq-q .faq-icon {
-      width: 22px; height: 22px; flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,.2); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .85rem; color: var(--gold);
-      transition: transform .3s, border-color .2s;
+      width:22px; height:22px; flex-shrink:0;
+      border:1px solid rgba(255,255,255,.2); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.85rem; color:var(--gold);
+      transition:transform .3s, border-color .2s;
     }
-    .faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--gold); }
+    .faq-item.open .faq-icon { transform:rotate(45deg); border-color:var(--gold); }
     .faq-a {
-      max-height: 0; overflow: hidden;
-      transition: max-height .38s ease, padding .3s;
-      background: rgba(255,255,255,.02);
-      font-size: .87rem; color: var(--muted); line-height: 1.8;
+      max-height:0; overflow:hidden; transition:max-height .38s ease, padding .3s;
+      background:rgba(255,255,255,.02); font-size:.87rem; color:var(--muted); line-height:1.8;
     }
-    .faq-item.open .faq-a { max-height: 300px; padding: 1rem 1.4rem 1.25rem; }
+    .faq-item.open .faq-a { max-height:300px; padding:1rem 1.4rem 1.25rem; }
 
     /* =============================================
        CONTACT
     ============================================= */
-    .contact { padding: 5rem 2.5rem; }
-    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-    .contact-desc  { color: var(--muted); font-size: .9rem; line-height: 1.9; margin: 1rem 0 2rem; }
+    .contact { padding:5rem 2.5rem; }
+    .contact-inner { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+    .contact-desc { color:var(--muted); font-size:.9rem; line-height:1.9; margin:1rem 0 2rem; }
     .btn-tg-big {
-      display: inline-flex; align-items: center; gap: .75rem;
-      background: var(--gold); color: var(--dark);
-      padding: 1rem 2.2rem;
-      border-radius: 8px;
-      font-size: .93rem; font-weight: 700;
-      text-decoration: none;
-      transition: transform .2s, background .2s;
-      animation: pulse 3.2s ease infinite;
-      letter-spacing: .04em;
-      -webkit-tap-highlight-color: transparent;
+      display:inline-flex; align-items:center; gap:.75rem;
+      background:var(--gold); color:var(--dark); padding:1rem 2.2rem;
+      border-radius:8px; font-size:.93rem; font-weight:700; text-decoration:none;
+      transition:transform .2s, background .2s; animation:pulse 3.2s ease infinite;
+      letter-spacing:.04em; -webkit-tap-highlight-color:transparent; touch-action:manipulation;
     }
-    .btn-tg-big:hover { background: var(--gold2); transform: scale(1.03); }
-    .btn-tg-big svg { width: 21px; height: 21px; fill: var(--dark); }
-    .contact-right { display: flex; flex-direction: column; gap: 1.2rem; }
-    .cinfo { display: flex; gap: .9rem; align-items: center; font-size: .85rem; color: #bbb; }
-    .cinfo-dot { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+    .btn-tg-big:hover { background:var(--gold2); transform:scale(1.03); }
+    .btn-tg-big svg { width:21px; height:21px; fill:var(--dark); }
+    .contact-right { display:flex; flex-direction:column; gap:1.2rem; }
+    .cinfo { display:flex; gap:.9rem; align-items:center; font-size:.85rem; color:#bbb; }
+    .cinfo-dot { width:7px; height:7px; background:var(--gold); border-radius:50%; flex-shrink:0; animation:pulse 2s ease infinite; }
 
     /* =============================================
        MODAL
     ============================================= */
     .modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,.8);
-      z-index: 900;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,.8); z-index:900;
+      align-items:center; justify-content:center; padding:1.25rem;
     }
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active { display:flex; }
     .modal-box {
-      background: var(--mid);
-      border: 1px solid var(--gold);
-      border-radius: 16px;
-      max-width: 500px; width: 100%;
-      padding: 2rem;
-      position: relative;
-      animation: fadeUp .3s ease;
-      max-height: 90vh;
-      overflow-y: auto;
+      background:var(--mid); border:1px solid var(--gold); border-radius:16px;
+      max-width:500px; width:100%; padding:2rem; position:relative;
+      animation:fadeUp .3s ease; max-height:90vh; overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
     }
     .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: none; border: none; color: #aaa;
-      font-size: 1.35rem; cursor: pointer; line-height: 1;
-      -webkit-tap-highlight-color: transparent;
+      position:absolute; top:1rem; right:1rem; background:none; border:none;
+      color:#aaa; font-size:1.35rem; cursor:pointer; line-height:1;
+      -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+      width:36px; height:36px; display:flex; align-items:center; justify-content:center;
     }
-    .modal-close:hover { color: var(--gold); }
-    .modal-cat   { font-size: .63rem; color: var(--gold); text-transform: uppercase; letter-spacing: .13em; margin-bottom: .4rem; }
-    .modal-name  { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: white; margin-bottom: .7rem; line-height: 1.1; }
-    .modal-price { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--gold); margin-bottom: 1.1rem; }
-    .modal-desc  { font-size: .87rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.1rem; }
-    .modal-points { list-style: none; margin-bottom: 1.4rem; display: flex; flex-direction: column; gap: .4rem; }
-    .modal-points li { font-size: .82rem; color: #ccc; }
+    .modal-close:hover { color:var(--gold); }
+    .modal-cat { font-size:.63rem; color:var(--gold); text-transform:uppercase; letter-spacing:.13em; margin-bottom:.4rem; }
+    .modal-name { font-family:'Bebas Neue',sans-serif; font-size:1.9rem; color:white; margin-bottom:.7rem; line-height:1.1; }
+    .modal-price { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; color:var(--gold); margin-bottom:1.1rem; }
+    .modal-desc { font-size:.87rem; color:var(--muted); line-height:1.8; margin-bottom:1.1rem; }
+    .modal-points { list-style:none; margin-bottom:1.4rem; display:flex; flex-direction:column; gap:.4rem; }
+    .modal-points li { font-size:.82rem; color:#ccc; }
     .modal-btn {
-      display: flex; align-items: center; justify-content: center; gap: .55rem;
-      background: var(--gold); color: var(--dark);
-      padding: .9rem; border-radius: 8px;
-      font-weight: 700; font-size: .9rem;
-      text-decoration: none; width: 100%;
-      transition: background .2s;
-      letter-spacing: .04em;
+      display:flex; align-items:center; justify-content:center; gap:.55rem;
+      background:var(--gold); color:var(--dark); padding:.9rem; border-radius:8px;
+      font-weight:700; font-size:.9rem; text-decoration:none; width:100%;
+      transition:background .2s; letter-spacing:.04em;
     }
-    .modal-btn:hover { background: var(--gold2); }
+    .modal-btn:hover { background:var(--gold2); }
 
     /* =============================================
        FOOTER
     ============================================= */
     footer {
-      background: var(--mid);
-      border-top: 1px solid rgba(255,255,255,.06);
-      padding: 1.5rem 2.5rem;
-      padding-bottom: calc(1.5rem + var(--safe-bot));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: .74rem;
-      color: var(--muted);
-      flex-wrap: wrap;
-      gap: 1rem;
+      background:var(--mid); border-top:1px solid rgba(255,255,255,.06);
+      padding:1.5rem 2.5rem; padding-bottom:calc(1.5rem + var(--safe-bot));
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:.74rem; color:var(--muted); flex-wrap:wrap; gap:1rem;
     }
 
     /* =============================================
-       TABLET (769–1024)
+       SCROLL TO TOP
     ============================================= */
-    @media (min-width: 769px) and (max-width: 1024px) {
-      nav { padding-left: 1.75rem; padding-right: 1.75rem; }
-      .hero { padding: 3.5rem 1.75rem; }
-      .hero-title { font-size: 4.5rem; }
-      .products-grid { grid-template-columns: repeat(2,1fr); }
-      .products, .contact, .faq-section, .details-section { padding-left: 1.75rem; padding-right: 1.75rem; }
-      .trust-grid { grid-template-columns: repeat(2,1fr); }
-      .contact-inner { gap: 2rem; }
+    .scroll-top {
+      position:fixed; bottom:calc(5.5rem + var(--safe-bot)); right:calc(1.25rem + var(--safe-r));
+      z-index:998; width:40px; height:40px; border-radius:50%;
+      background:rgba(201,168,76,.15); border:1px solid rgba(201,168,76,.3);
+      color:var(--gold); display:flex; align-items:center; justify-content:center;
+      cursor:pointer; opacity:0; transform:translateY(10px);
+      transition:opacity .3s, transform .3s, background .2s;
+      font-size:1rem; -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+    }
+    .scroll-top.visible { opacity:1; transform:translateY(0); }
+    .scroll-top:hover { background:var(--gold); color:var(--dark); }
+
+    /* =============================================
+       TABLET
+    ============================================= */
+    @media (min-width:769px) and (max-width:1024px) {
+      nav { padding-left:1.75rem; padding-right:1.75rem; }
+      .hero { padding:3.5rem 1.75rem; }
+      .hero-title { font-size:4.5rem; }
+      .products-grid { grid-template-columns:repeat(2,1fr); }
+      .products, .contact, .faq-section, .details-section, .construction-section { padding-left:1.75rem; padding-right:1.75rem; }
+      .trust-grid { grid-template-columns:repeat(2,1fr); }
+      .contact-inner { gap:2rem; }
     }
 
     /* =============================================
-       MOBILE (≤768)
+       MOBILE ≤768 — PRIORIDAD TOTAL
     ============================================= */
-    @media (max-width: 768px) {
-      nav { padding: .8rem 1.2rem; padding-top: calc(.8rem + var(--safe-top)); }
-      .nav-links, .nav-btn { display: none; }
-      .hamburger { display: flex; }
-      .logo { font-size: 1.45rem; }
+    @media (max-width:768px) {
+      nav { padding:.8rem 1.2rem; padding-top:calc(.8rem + var(--safe-top)); }
+      .nav-links, .nav-btn { display:none; }
+      .hamburger { display:flex; }
+      .logo { font-size:1.45rem; }
 
       .hero {
-        grid-template-columns: 1fr;
-        padding: 2rem 1.2rem 2.5rem;
-        min-height: unset;
-        gap: 1.75rem;
+        grid-template-columns:1fr;
+        padding:1.75rem 1.2rem 2.5rem;
+        min-height:unset; gap:1.5rem;
       }
-      .hero-right { order: -1; }
-      .hero-img {
-        aspect-ratio: 16/10;
-        animation: none;
-        border-radius: 12px;
-      }
-      .hero-title { font-size: clamp(2.8rem,10vw,4rem); }
-      .hero-sub { font-size: .87rem; max-width: 100%; }
-      .hero-stats { gap: .7rem; }
-      .stat-n { font-size: 1.6rem; }
-      .hero-actions { flex-direction: column; }
+      .hero-right { order:-1; }
+      .hero-img { aspect-ratio:16/10; animation:none; border-radius:12px; }
+      .hero-title { font-size:clamp(2.8rem,10vw,4rem); }
+      .hero-sub { font-size:.87rem; max-width:100%; }
+      .hero-stats { gap:.65rem; }
+      .stat-n { font-size:1.6rem; }
+      .hero-actions { flex-direction:column; }
       .btn-gold, .btn-tg {
-        text-align: center;
-        justify-content: center;
-        width: 100%;
-        padding: .9rem 1.2rem;
+        text-align:center; justify-content:center;
+        width:100%; padding:.95rem 1.2rem;
+        /* Bigger tap targets on mobile */
+        min-height:52px;
       }
 
-      .ticker-item { font-size: .83rem; padding: 0 1.5rem; }
+      .ticker-item { font-size:.83rem; padding:0 1.5rem; }
 
-      .trust-section { padding: 2rem 1.2rem; }
-      .trust-grid { grid-template-columns: repeat(2,1fr); gap: .85rem; }
-      .trust-card { padding: 1.1rem .9rem; }
+      .trust-section { padding:2rem 1.2rem; }
+      .trust-grid { grid-template-columns:repeat(2,1fr); gap:.85rem; }
+      .trust-card { padding:1.1rem .9rem; }
 
-      .products { padding: 2.5rem 1.2rem; }
-      .products-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .section-header { flex-direction: column; align-items: flex-start; gap: .65rem; }
-      .product-card { height: 380px; }
-      .product-card:hover .card-inner { transform: none; }
-      .product-card.flipped .card-inner { transform: rotateY(180deg); }
+      .products { padding:2.5rem 1.2rem; }
+      .products-grid { grid-template-columns:1fr; gap:1rem; }
+      .section-header { flex-direction:column; align-items:flex-start; gap:.65rem; }
+      .product-card { height:auto; min-height:340px; }
+      /* Mobile: tap to flip, no hover flip */
+      .product-card:hover .card-inner { transform:none; }
+      .product-card.flipped .card-inner { transform:rotateY(180deg); }
 
-      .about { grid-template-columns: 1fr; }
-      .about-img-box { min-height: 240px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
-      .about-content { padding: 2.5rem 1.2rem; }
-      .about-num { font-size: 4rem; }
-      .about-title { font-size: 2rem; }
+      .about { grid-template-columns:1fr; }
+      .about-img-box { min-height:220px; border-right:none; border-bottom:1px solid rgba(255,255,255,.06); }
+      .about-content { padding:2.5rem 1.2rem; }
+      .about-num { font-size:4rem; }
+      .about-title { font-size:2rem; }
 
-      .details-section { padding: 2.5rem 1.2rem; }
-      .detail-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.25rem; }
-      .detail-icon { width: 46px; height: 46px; }
+      .details-section { padding:2.5rem 1.2rem; }
+      .detail-card { grid-template-columns:1fr; gap:.85rem; padding:1.25rem; }
+      .detail-icon { width:46px; height:46px; }
 
-      .progress-section { padding: 2.5rem 1.2rem; }
-      .faq-section { padding: 2.5rem 1.2rem; }
-      .contact { padding: 2.5rem 1.2rem; }
-      .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .btn-tg-big { width: 100%; justify-content: center; }
+      .progress-section { padding:2.5rem 1.2rem; }
 
-      footer {
-        padding: 1.25rem;
-        padding-bottom: calc(1.25rem + var(--safe-bot));
-        text-align: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: .5rem;
-      }
+      .construction-section { padding:3rem 1.2rem; }
+      .construction-title { font-size:clamp(1.8rem,7vw,2.8rem); }
 
-      .modal-box { padding: 1.5rem; border-radius: 14px; }
-      .modal-name  { font-size: 1.6rem; }
-      .modal-price { font-size: 2rem; }
+      .faq-section { padding:2.5rem 1.2rem; }
+      /* Bigger FAQ buttons for fingers */
+      .faq-q { padding:1.2rem; font-size:.88rem; min-height:60px; }
 
-      .tg-float { width: 52px; height: 52px; bottom: calc(1rem + var(--safe-bot)); right: calc(1rem + var(--safe-r)); }
+      .contact { padding:2.5rem 1.2rem; }
+      .contact-inner { grid-template-columns:1fr; gap:2rem; }
+      .btn-tg-big { width:100%; justify-content:center; min-height:58px; font-size:1rem; }
+
+      footer { padding:1.25rem; padding-bottom:calc(1.25rem + var(--safe-bot)); text-align:center; justify-content:center; flex-direction:column; gap:.5rem; }
+
+      .modal-overlay { align-items:flex-end; padding:0; }
+      .modal-box { border-radius:18px 18px 0 0; max-height:88vh; padding:1.75rem 1.5rem; border-bottom:none; }
+      .modal-name { font-size:1.6rem; }
+      .modal-price { font-size:2rem; }
+
+      .popup-box { border-radius:16px; padding:1.75rem 1.25rem; }
+      .popup-title { font-size:1.9rem; }
+
+      .tg-float { width:56px; height:56px; bottom:calc(1rem + var(--safe-bot)); right:calc(1rem + var(--safe-r)); }
+      .scroll-top { bottom:calc(4.5rem + var(--safe-bot)); }
     }
 
-    @media (max-width: 390px) {
-      .hero-title { font-size: 2.5rem; }
-      .stat { padding: .8rem; }
-      .stat-n { font-size: 1.4rem; }
-      .trust-grid { grid-template-columns: 1fr; }
+    @media (max-width:390px) {
+      .hero-title { font-size:2.5rem; }
+      .stat { padding:.8rem; }
+      .stat-n { font-size:1.4rem; }
+      .trust-grid { grid-template-columns:1fr; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    @media (prefers-reduced-motion:reduce) {
+      *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
     }
 
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--dark); }
-    ::-webkit-scrollbar-thumb { background: var(--gold3); border-radius: 50px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+    ::-webkit-scrollbar { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--dark); }
+    ::-webkit-scrollbar-thumb { background:var(--gold3); border-radius:50px; }
+    ::-webkit-scrollbar-thumb:hover { background:var(--gold); }
   </style>
 </head>
 <body>
+
+<!-- =============================================
+     ★ POPUP IMPORTANTE — Al cargar la página
+     Para cambiar el texto: editá dentro de <p id="popup-message-text">
+============================================= -->
+<div class="popup-overlay" id="entryPopup" role="dialog" aria-modal="true">
+  <div class="popup-box">
+    <div class="popup-warn-icon">⚠️</div>
+    <div class="popup-title">¡ IMPORTANTE !</div>
+    <div class="popup-subtitle">Leé antes de continuar</div>
+    <div class="popup-divider"></div>
+
+    <!-- ★ EDITÁ ESTE TEXTO LIBREMENTE ★ -->
+    <p id="popup-message-text">
+      Bienvenido a <strong style="color:var(--gold)">AN SHOP</strong>. Antes de continuar, recordá que todos nuestros servicios se gestionan <strong>exclusivamente por Telegram</strong>.<br><br>
+      No realizamos ventas por otros medios. Desconfiá de cuentas que se hagan pasar por nosotros. Nuestro único canal oficial es <strong style="color:var(--gold)">@AN_shopp</strong>.<br><br>
+      <span style="color:var(--black);font-weight:600;">⚠️ Por qué hacemos esto? Porque es nuestra forma de blanquear dinero, nosotros ganamos el dinero de la compra del cliente. que es dinero blanco, y el cliente el dinero que nosotros le otorgamos. ⚠️  </span>
+    </p>
+    <!-- ★ FIN DEL TEXTO EDITABLE ★ -->
+
+    <button class="popup-close-btn" onclick="closePopup()" id="popupCloseBtn">
+      ENTENDIDO — INGRESAR
+    </button>
+    <p class="popup-note">Este aviso aparece una vez por visita</p>
+  </div>
+</div>
 
 <!-- ===== TELEGRAM FLOAT ===== -->
 <a href="https://t.me/AN_shopp" target="_blank" rel="noopener" class="tg-float" title="Escribinos por Telegram" aria-label="Telegram">
   <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.024 9.532c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 14.835l-2.95-.924c-.642-.2-.654-.642.136-.95l11.527-4.444c.535-.194 1.003.13.589.731z"/></svg>
 </a>
 
+<!-- ===== SCROLL TO TOP ===== -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">↑</button>
+
 <!-- ===== MENU OVERLAY ===== -->
 <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
 <!-- ===== NAVBAR ===== -->
-<nav>
+<nav id="navbar">
   <a class="logo-wrap" href="#inicio" aria-label="AN SHOP Inicio">
     <div class="logo">AN_SHOP</div>
   </a>
@@ -951,37 +1044,15 @@
     <a href="https://t.me/AN_shopp" target="_blank" rel="noopener" class="see-all">Ver todo →</a>
   </div>
   <div class="products-grid">
-
-    <!-- PRODUCTO 1 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $350"></div>
-
-    <!-- PRODUCTO 2 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta PayPal $350"></div>
-
-    <!-- PRODUCTO 3 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Software Blouked"></div>
-
-    <!-- PRODUCTO 4 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $500"></div>
-
-    <!-- PRODUCTO 5 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $800"></div>
-
-    <!-- PRODUCTO 6 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta PayPal $800"></div>
-
-    <!-- PRODUCTO 7 — Cuenta Binance Verificada KYC -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta Binance Verificada"></div>
-
-    <!-- PRODUCTO 8 — Cuenta Binance con Saldo USDT -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta Binance con Saldo USDT"></div>
-
-    <!-- PRODUCTO 9 — Completá vos: cambiá cat, name, price, badge, emoji, desc y points en el array JS -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Producto personalizado 1"></div>
-
-    <!-- PRODUCTO 10 — Completá vos: cambiá cat, name, price, badge, emoji, desc y points en el array JS -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Producto personalizado 2"></div>
-
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
+    <div class="product-card" role="button" tabindex="0"></div>
   </div>
 </section>
 
@@ -994,6 +1065,7 @@
 
   <div class="detail-card">
     <div class="detail-icon">
+      <!-- Credit card icon -->
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
     </div>
     <div class="detail-content">
@@ -1007,9 +1079,7 @@
           <li>✦ Sin riesgo para el comprador</li>
           <li>✦ Garantía de reposición incluida</li>
         </ul>
-        <div class="detail-note">
-          <strong>Importante:</strong> Las tarjetas a veces pueden fallar. En ese caso, se entregará otra inmediatamente sin costo adicional.
-        </div>
+        <div class="detail-note"><strong>Importante:</strong> Las tarjetas a veces pueden fallar. En ese caso, se entregará otra inmediatamente sin costo adicional.</div>
       </div>
     </div>
   </div>
@@ -1028,16 +1098,15 @@
           <li>✦ Soporte técnico incluido</li>
           <li>✦ Actualizaciones garantizadas</li>
         </ul>
-        <div class="detail-note">
-          <strong>Requisitos:</strong> Consultá por Telegram los requisitos técnicos específicos o instrucciones de instalación.
-        </div>
+        <div class="detail-note"><strong>Requisitos:</strong> Consultá por Telegram los requisitos técnicos específicos o instrucciones de instalación.</div>
       </div>
     </div>
   </div>
 
   <div class="detail-card">
     <div class="detail-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M15 8.5c0 2.5-2 4-4 4H9l-1 5H6l2-10h4c1.66 0 3 1.34 3 3v-2z"/></svg>
+      <!-- PayPal P icon -->
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082H9.825l-1.151 7.29H13.6c.524 0 .968-.382 1.05-.9l.903-5.723c.082-.518.526-.9 1.05-.9h.668c4.298 0 7.664-1.747 8.647-6.797.42-2.157-.02-3.783-1.696-4.765z" opacity=".5"/></svg>
     </div>
     <div class="detail-content">
       <h3 class="detail-title">Cuentas PayPal — ¿Cómo funcionan?</h3>
@@ -1049,30 +1118,27 @@
           <li>✦ Entrega en menos de 30 minutos</li>
           <li>✦ Soporte ante cualquier inconveniente</li>
         </ul>
-        <div class="detail-note">
-          <strong>Recomendación:</strong> Una vez recibida la cuenta, úsala de forma prudente y contactanos ante cualquier problema para brindarte soporte.
-        </div>
+        <div class="detail-note"><strong>Recomendación:</strong> Una vez recibida la cuenta, úsala de forma prudente y contactanos ante cualquier problema para brindarte soporte.</div>
       </div>
     </div>
   </div>
 
   <div class="detail-card">
     <div class="detail-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <!-- Binance B icon -->
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="#F0B90B"><path d="M12 0L7.2 4.8 9.6 7.2 12 4.8l2.4 2.4 2.4-2.4L12 0zM4.8 7.2L2.4 9.6 4.8 12l2.4-2.4L4.8 7.2zm14.4 0l-2.4 2.4L19.2 12l2.4-2.4-2.4-2.4zM12 9.6l-2.4 2.4L12 14.4l2.4-2.4L12 9.6zm0 7.2l-2.4 2.4 2.4 2.4 2.4-2.4-2.4-2.4z"/></svg>
     </div>
     <div class="detail-content">
       <h3 class="detail-title">Cuentas Binance — ¿Cómo funcionan?</h3>
       <div class="detail-body">
-        <p>Vendemos cuentas Binance verificadas con KYC completo, listas para operar al instante. También disponemos de cuentas con saldo en USDT para trading o transferencias cripto.</p>
+        <p>Vendemos cuentas Binance verificadas con KYC completo, listas para operar al instante. También disponemos de cuentas con saldo para retiros o transferencias cripto.</p>
         <ul>
           <li>✦ KYC verificado — listas para usar de inmediato</li>
           <li>✦ Email y contraseña entregados directamente por Telegram</li>
           <li>✦ Entrega en menos de 30 minutos</li>
           <li>✦ Soporte ante cualquier inconveniente</li>
         </ul>
-        <div class="detail-note">
-          <strong>Recomendación:</strong> Una vez recibida la cuenta, cambiá la contraseña y usala con prudencia. Contactanos ante cualquier problema.
-        </div>
+        <div class="detail-note"><strong>Recomendación:</strong> Una vez recibida la cuenta, cambiá la contraseña y usala con prudencia. Contactanos ante cualquier problema.</div>
       </div>
     </div>
   </div>
@@ -1086,31 +1152,19 @@
   </div>
   <div class="progress-items">
     <div class="progress-item">
-      <div class="progress-labels">
-        <span class="progress-label">Clientes satisfechos este mes</span>
-        <span class="progress-val">500+</span>
-      </div>
+      <div class="progress-labels"><span class="progress-label">Clientes satisfechos este mes</span><span class="progress-val">500+</span></div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" data-width="92"></div></div>
     </div>
     <div class="progress-item">
-      <div class="progress-labels">
-        <span class="progress-label">Entregas en menos de 30 minutos</span>
-        <span class="progress-val">97%</span>
-      </div>
+      <div class="progress-labels"><span class="progress-label">Entregas en menos de 30 minutos</span><span class="progress-val">97%</span></div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" data-width="97"></div></div>
     </div>
     <div class="progress-item">
-      <div class="progress-labels">
-        <span class="progress-label">Problemas resueltos con garantía</span>
-        <span class="progress-val">100%</span>
-      </div>
+      <div class="progress-labels"><span class="progress-label">Problemas resueltos con garantía</span><span class="progress-val">100%</span></div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" data-width="100"></div></div>
     </div>
     <div class="progress-item">
-      <div class="progress-labels">
-        <span class="progress-label">Tasa de recompra de clientes</span>
-        <span class="progress-val">78%</span>
-      </div>
+      <div class="progress-labels"><span class="progress-label">Tasa de recompra de clientes</span><span class="progress-val">78%</span></div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" data-width="78"></div></div>
     </div>
   </div>
@@ -1139,6 +1193,41 @@
       <span class="tag-pill">Calidad de primera</span>
       <span class="tag-pill">+500 clientes</span>
     </div>
+  </div>
+</section>
+
+<!-- =============================================
+     ★ SECCIÓN EN CONSTRUCCIÓN / COMING SOON
+============================================= -->
+<section class="construction-section">
+  <span class="construction-icon">🚧</span>
+  <div class="construction-badge">En desarrollo</div>
+  <h2 class="construction-title">ESTAMOS <span>MEJORANDO</span><br>LA PÁGINA</h2>
+  <p class="construction-sub">
+    Estamos trabajando para traerte nuevas funciones, más servicios y una experiencia aún mejor.
+    <strong style="color:var(--gold)">Pronto estará disponible.</strong>
+  </p>
+
+  <div class="cs-progress-wrap">
+    <div class="cs-progress-label">
+      <span>Progreso del sitio</span>
+      <span style="color:var(--gold)">72%</span>
+    </div>
+    <div class="cs-bar-bg">
+      <div class="cs-bar-fill"></div>
+    </div>
+  </div>
+
+  <a href="https://t.me/AN_shopp" target="_blank" rel="noopener" class="cs-tg-btn">
+    <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.024 9.532c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 14.835l-2.95-.924c-.642-.2-.654-.642.136-.95l11.527-4.444c.535-.194 1.003.13.589.731z"/></svg>
+    Avisame cuando esté listo
+  </a>
+
+  <div class="cs-dots">
+    <div class="cs-dot"></div>
+    <div class="cs-dot"></div>
+    <div class="cs-dot"></div>
+    <div class="cs-dot"></div>
   </div>
 </section>
 
@@ -1181,10 +1270,7 @@
   <div class="contact-inner">
     <div>
       <h2 class="section-title">HABLEMOS <span>AHORA</span></h2>
-      <p class="contact-desc">
-        ¿Tenés dudas o querés comprar? Contactame directamente por Telegram
-        y te respondemos en minutos.
-      </p>
+      <p class="contact-desc">¿Tenés dudas o querés comprar? Contactame directamente por Telegram y te respondemos en minutos.</p>
       <a href="https://t.me/AN_shopp" target="_blank" rel="noopener" class="btn-tg-big">
         <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.024 9.532c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 14.835l-2.95-.924c-.642-.2-.654-.642.136-.95l11.527-4.444c.535-.194 1.003.13.589.731z"/></svg>
         CONTACTAR POR TELEGRAM
@@ -1212,6 +1298,7 @@
 <div class="modal-overlay" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modal-name">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">✕</button>
+    <div id="modal-logo" style="margin-bottom:.75rem;height:52px;display:flex;align-items:center;justify-content:flex-start;"></div>
     <div class="modal-cat"  id="modal-cat"></div>
     <div class="modal-name" id="modal-name"></div>
     <div class="modal-price" id="modal-price"></div>
@@ -1226,102 +1313,102 @@
 
 <script>
 /* ================================================
+   LOGOS SVG INLINE
+================================================ */
+const LOGOS = {
+  card: `<svg width="80" height="52" viewBox="0 0 80 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="1" width="78" height="50" rx="7" stroke="#c9a84c" stroke-width="1.5" fill="#111"/>
+    <rect x="0" y="12" width="80" height="14" fill="#c9a84c" opacity=".18"/>
+    <rect x="10" y="32" width="30" height="5" rx="2.5" fill="#c9a84c" opacity=".4"/>
+    <rect x="46" y="32" width="12" height="5" rx="2.5" fill="#c9a84c" opacity=".25"/>
+    <circle cx="58" cy="18" r="7" fill="#c9a84c" opacity=".35"/>
+    <circle cx="64" cy="18" r="7" fill="#e8d48b" opacity=".22"/>
+    <rect x="10" y="22" width="20" height="3" rx="1.5" fill="#c9a84c" opacity=".3"/>
+  </svg>`,
+
+  paypal: `<svg width="90" height="52" viewBox="0 0 90 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <text x="8" y="38" font-family="Arial Black,sans-serif" font-size="38" font-weight="900" fill="#003087">Pay</text>
+    <text x="46" y="38" font-family="Arial Black,sans-serif" font-size="38" font-weight="900" fill="#009cde">Pal</text>
+  </svg>`,
+
+  binance: `<svg width="120" height="44" viewBox="0 0 120 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0,2)">
+      <polygon points="10,20 16,14 22,20 16,26" fill="#F0B90B"/>
+      <polygon points="22,20 28,14 34,20 28,26" fill="#F0B90B"/>
+      <polygon points="16,26 22,20 28,26 22,32" fill="#F0B90B"/>
+      <polygon points="4,20 10,14 16,20 10,26" fill="#F0B90B"/>
+      <polygon points="28,20 34,14 40,20 34,26" fill="#F0B90B"/>
+    </g>
+    <text x="48" y="30" font-family="Arial Black,sans-serif" font-size="18" font-weight="900" fill="#F0B90B" letter-spacing="1">BINANCE</text>
+  </svg>`,
+
+  software: `<svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="6" width="50" height="36" rx="5" stroke="#c9a84c" stroke-width="1.5" fill="#111"/>
+    <rect x="19" y="42" width="14" height="4" rx="1" fill="#c9a84c" opacity=".4"/>
+    <rect x="12" y="46" width="28" height="2" rx="1" fill="#c9a84c" opacity=".3"/>
+    <text x="9" y="29" font-family="monospace" font-size="13" fill="#c9a84c" opacity=".85">&lt;/&gt;</text>
+    <circle cx="38" cy="22" r="3" fill="#c9a84c" opacity=".4"/>
+  </svg>`
+};
+
+/* ================================================
    PRODUCT DATA
-   — Productos 9 y 10: editá cat, name, price, badge, emoji, desc y points
 ================================================ */
 const products = [
-  // 1
   {
-    cat: 'SERVICIO',
-    name: 'Tarjeta CCS — $350 de Saldo',
-    price: '$45 USD',
-    badge: 'MÁS COMPRADO',
-    emoji: '💳',
-    desc: 'Tarjeta para compras online con saldo real disponible. Fácil de usar en tiendas como Amazon, Shein, AliExpress y más.',
-    points: ['✦ Entrega instantánea por Telegram', '✦ Funciona en Amazon, Shein, AliExpress, Temu', '✦ Sin riesgo para el comprador', '✦ Garantía de reposición incluida']
+    cat:'SERVICIO', name:'Tarjeta CCS — $350 de Saldo', price:'$45 USD',
+    badge:'MÁS COMPRADO', logoKey:'card',
+    desc:'Tarjeta para compras online con saldo real disponible. Fácil de usar en tiendas como Amazon, Shein, AliExpress y más.',
+    points:['✦ Entrega instantánea por Telegram','✦ Funciona en Amazon, Shein, AliExpress, Temu','✦ Sin riesgo para el comprador','✦ Garantía de reposición incluida']
   },
-  // 2
   {
-    cat: 'SERVICIO',
-    name: 'Cuenta PayPal — $350 de Saldo',
-    price: '$45 USD',
-    badge: 'TOP',
-    emoji: '🅿️',
-    desc: 'Cuenta PayPal verificada con saldo disponible para usar de inmediato. Acceso completo incluido.',
-    points: ['✦ Email y contraseña entregados por Telegram', '✦ Cuenta verificada con saldo real', '✦ Entrega en menos de 30 minutos', '✦ Soporte ante cualquier inconveniente']
+    cat:'SERVICIO', name:'Cuenta PayPal — $350 de Saldo', price:'$45 USD',
+    badge:'TOP', logoKey:'paypal',
+    desc:'Cuenta PayPal verificada con saldo disponible para usar de inmediato. Acceso completo incluido.',
+    points:['✦ Email y contraseña entregados por Telegram','✦ Cuenta verificada con saldo real','✦ Entrega en menos de 30 minutos','✦ Soporte ante cualquier inconveniente']
   },
-  // 3
   {
-    cat: 'PROGRAMA',
-    name: 'Software Blouked',
-    price: '$250 USD',
-    badge: null,
-    emoji: '💻',
-    desc: 'Herramienta especializada para automatizar procesos. Compatible con Windows 10/11. Entrega digital inmediata.',
-    points: ['✦ Compatible con Windows 10 y 11', '✦ Entrega digital inmediata tras el pago', '✦ Soporte técnico incluido', '✦ Actualizaciones garantizadas']
+    cat:'PROGRAMA', name:'Software Blouked', price:'$250 USD',
+    badge:null, logoKey:'software',
+    desc:'Herramienta especializada para automatizar procesos. Compatible con Windows 10/11. Entrega digital inmediata.',
+    points:['✦ Compatible con Windows 10 y 11','✦ Entrega digital inmediata tras el pago','✦ Soporte técnico incluido','✦ Actualizaciones garantizadas']
   },
-  // 4
   {
-    cat: 'SERVICIO',
-    name: 'Tarjeta CCS — $500 de Saldo',
-    price: '$65 USD',
-    badge: 'NUEVO',
-    emoji: '💳',
-    desc: 'Mayor capacidad de compra online. Ideal para compras frecuentes o de mayor volumen en tiendas internacionales.',
-    points: ['✦ Entrega instantánea por Telegram', '✦ Funciona en todas las tiendas online', '✦ Sin riesgo para el comprador', '✦ Garantía de reposición incluida']
+    cat:'SERVICIO', name:'Tarjeta CCS — $500 de Saldo', price:'$65 USD',
+    badge:'NUEVO', logoKey:'card',
+    desc:'Mayor capacidad de compra online. Ideal para compras frecuentes o de mayor volumen en tiendas internacionales.',
+    points:['✦ Entrega instantánea por Telegram','✦ Funciona en todas las tiendas online','✦ Sin riesgo para el comprador','✦ Garantía de reposición incluida']
   },
-  // 5
   {
-    cat: 'SERVICIO',
-    name: 'Tarjeta CCS — $800 de Saldo',
-    price: '$90 USD',
-    badge: null,
-    emoji: '💳',
-    desc: 'Nuestra tarjeta de gran preferencia. Perfecta para compras grandes o para retirar los saldos.',
-    points: ['✦ Mayor saldo disponible', '✦ Entrega instantánea por Telegram', '✦ Sin riesgo para el comprador', '✦ Garantía de reposición incluida']
+    cat:'SERVICIO', name:'Tarjeta CCS — $800 de Saldo', price:'$90 USD',
+    badge:null, logoKey:'card',
+    desc:'Nuestra tarjeta de gran preferencia. Perfecta para compras grandes o para retirar los saldos.',
+    points:['✦ Mayor saldo disponible','✦ Entrega instantánea por Telegram','✦ Sin riesgo para el comprador','✦ Garantía de reposición incluida']
   },
-  // 6
   {
-    cat: 'SERVICIO',
-    name: 'Cuenta PayPal — $800 de Saldo',
-    price: '$90 USD',
-    badge: null,
-    emoji: '🅿️',
-    desc: 'Cuenta PayPal verificada con $800 de saldo. Para operaciones de mayor volumen con acceso completo.',
-    points: ['✦ Email y contraseña entregados por Telegram', '✦ Cuenta verificada con saldo real', '✦ Ideal para compras de mayor volumen', '✦ Soporte ante cualquier inconveniente']
+    cat:'SERVICIO', name:'Cuenta PayPal — $800 de Saldo', price:'$90 USD',
+    badge:null, logoKey:'paypal',
+    desc:'Cuenta PayPal verificada con $800 de saldo. Para operaciones de mayor volumen con acceso completo.',
+    points:['✦ Email y contraseña entregados por Telegram','✦ Cuenta verificada con saldo real','✦ Ideal para compras de mayor volumen','✦ Soporte ante cualquier inconveniente']
   },
-  // 7 — BINANCE KYC
   {
-    cat: 'CRIPTO',
-    name: 'Cuenta Binance Verificada — $600 de saldo',
-    price: '$80 USD',
-    badge: 'NUEVO',
-    emoji: '💰',
-    desc: 'Cuenta Binance con verificación KYC completa. Lista para retirar el dinero al instante. Acceso total con email y contraseña entregados por Telegram.',
-    points: ['✦ Cuenta con verificación KYC completa', '✦ Email y contraseña entregados por Telegram', '✦ Lista para retirar el dinero al instante', '✦ Soporte ante cualquier inconveniente']
+    cat:'CRIPTO', name:'Cuenta Binance Verificada — $600 de saldo', price:'$80 USD',
+    badge:'NUEVO', logoKey:'binance',
+    desc:'Cuenta Binance con verificación KYC completa. Lista para retirar el dinero al instante. Acceso total con email y contraseña entregados por Telegram.',
+    points:['✦ Cuenta con verificación KYC completa','✦ Email y contraseña entregados por Telegram','✦ Lista para retirar el dinero al instante','✦ Soporte ante cualquier inconveniente']
   },
-  // 8 — BINANCE SALDO USDT
   {
-    cat: 'CRIPTO',
-    name: 'Cuenta Binance Verificada —  $900 de saldo',
-    price: '$95  USD',
-    badge: 'TOP',
-    emoji: '💰',
-    desc: 'Cuenta Binance verificada con saldo en USDT disponible para retirar de inmediato. Ideal para retiros o transferencias cripto.',
-    points: ['✦ Saldo en USDT disponible', '✦ Cuenta verificada KYC', '✦ Entrega en menos de 30 minutos', '✦ Garantía de reposición incluida']
+    cat:'CRIPTO', name:'Cuenta Binance Verificada — $900 de saldo', price:'$95 USD',
+    badge:'TOP', logoKey:'binance',
+    desc:'Cuenta Binance verificada con saldo disponible para retirar de inmediato. Ideal para retiros o transferencias cripto.',
+    points:['✦ Saldo en USDT disponible','✦ Cuenta verificada KYC','✦ Entrega en menos de 30 minutos','✦ Garantía de reposición incluida']
   },
- 
   {
-    cat: 'SERVICIO',
-    name: 'Tarjeta CCS - $1200 de Saldo'  ,
-    price: '$120 USD',
-    badge: null,
-    emoji: '⭐',
-    desc: 'Nuestra tarjeta de mayor capacidad. Perfecta para compras grandes o para retirar los saldos.',
-    points: ['✦ Facil y segura', '✦ Ideal para Mercado Libre', '✦ Facil de usar', '✦ Entrega rapida']
-  },
-  // 10 — ✏️ COMPLETÁ VOS: cambiá los valores de cat, name, price, badge, emoji, desc y points
-
+    cat:'SERVICIO', name:'Tarjeta CCS — $1200 de Saldo', price:'$120 USD',
+    badge:null, logoKey:'card',
+    desc:'Nuestra tarjeta de mayor capacidad. Perfecta para compras grandes o para retirar los saldos.',
+    points:['✦ Fácil y segura','✦ Ideal para Mercado Libre','✦ Fácil de usar','✦ Entrega rápida']
+  }
 ];
 
 /* ================================================
@@ -1334,14 +1421,17 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
   if (!p) return;
 
   const backPoints = p.points.map(pt => `<li>${pt}</li>`).join('');
-  const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+  const badgeHtml  = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+  const logoSvg    = LOGOS[p.logoKey] || '';
 
   card.innerHTML = `
     <div class="card-inner">
       <div class="card-front">
-        <div class="product-img">
+        <div class="product-img" style="background:#0d0d0d;">
           ${badgeHtml}
-          <div style="font-size:3.5rem;user-select:none;">${p.emoji}</div>
+          <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:1rem;">
+            ${logoSvg}
+          </div>
         </div>
         <div class="product-info">
           <div class="product-cat">${p.cat}</div>
@@ -1353,6 +1443,7 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
         </div>
       </div>
       <div class="card-back">
+        <div style="margin-bottom:.25rem;">${logoSvg}</div>
         <div class="card-back-title">${p.name}</div>
         <div class="card-back-desc">${p.desc}</div>
         <ul class="modal-points" style="margin:0">${backPoints}</ul>
@@ -1363,6 +1454,8 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
 
   card.addEventListener('click', (e) => {
     if (isMobile()) {
+      // close others
+      document.querySelectorAll('.product-card.flipped').forEach(c => { if (c !== card) c.classList.remove('flipped'); });
       card.classList.toggle('flipped');
     } else {
       openModal(i);
@@ -1375,6 +1468,18 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
 });
 
 /* ================================================
+   POPUP
+================================================ */
+function closePopup() {
+  const p = document.getElementById('entryPopup');
+  p.style.animation = 'fadeIn .3s ease reverse';
+  setTimeout(() => p.style.display = 'none', 280);
+  document.body.style.overflow = '';
+}
+// Block scroll while popup open
+document.body.style.overflow = 'hidden';
+
+/* ================================================
    MODAL
 ================================================ */
 function openModal(i) {
@@ -1384,6 +1489,7 @@ function openModal(i) {
   document.getElementById('modal-price').textContent = p.price;
   document.getElementById('modal-desc').textContent  = p.desc;
   document.getElementById('modal-points').innerHTML  = p.points.map(pt => `<li>${pt}</li>`).join('');
+  document.getElementById('modal-logo').innerHTML    = LOGOS[p.logoKey] || '';
   document.getElementById('productModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -1394,7 +1500,9 @@ function closeModal() {
 document.getElementById('productModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeMenu(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeMenu(); closePopup(); }
+});
 
 /* ================================================
    MOBILE MENU
@@ -1433,21 +1541,20 @@ document.querySelectorAll('.faq-q').forEach(btn => {
 });
 
 /* ================================================
-   PROGRESS BARS (IntersectionObserver)
+   PROGRESS BARS
 ================================================ */
 const barObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const bar = entry.target;
-      bar.style.width = bar.dataset.width + '%';
-      barObserver.unobserve(bar);
+      entry.target.style.width = entry.target.dataset.width + '%';
+      barObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.3 });
 document.querySelectorAll('.progress-bar-fill').forEach(b => barObserver.observe(b));
 
 /* ================================================
-   SCROLL REVEAL (IntersectionObserver)
+   SCROLL REVEAL
 ================================================ */
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -1456,14 +1563,29 @@ const revealObserver = new IntersectionObserver(entries => {
       revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 
-document.querySelectorAll('.trust-card, .detail-card, .faq-item, .cinfo').forEach((el, i) => {
+document.querySelectorAll('.trust-card, .detail-card, .faq-item, .cinfo, .product-card').forEach((el, i) => {
   el.style.opacity = '0';
-  el.style.animation = `fadeUp .6s ease ${i * 0.07}s forwards`;
+  el.style.animation = `fadeUp .6s ease ${i * 0.06}s forwards`;
   el.style.animationPlayState = 'paused';
   revealObserver.observe(el);
 });
+
+/* ================================================
+   NAVBAR SCROLL EFFECT
+================================================ */
+const navbar = document.getElementById('navbar');
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    navbar.classList.add('scrolled');
+    scrollTopBtn.classList.add('visible');
+  } else {
+    navbar.classList.remove('scrolled');
+    scrollTopBtn.classList.remove('visible');
+  }
+}, { passive: true });
 
 /* ================================================
    PARTICLE CANVAS
@@ -1475,57 +1597,40 @@ document.querySelectorAll('.trust-card, .detail-card, .faq-item, .cinfo').forEac
   let W, H, particles, raf;
 
   function resize() {
-    const hero = canvas.parentElement;
-    W = canvas.width  = hero.offsetWidth;
-    H = canvas.height = hero.offsetHeight;
+    W = canvas.width  = canvas.parentElement.offsetWidth;
+    H = canvas.height = canvas.parentElement.offsetHeight;
   }
-
   function mkParticle() {
     return {
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.4 + .3,
-      vx: (Math.random() - .5) * .3,
-      vy: (Math.random() - .5) * .3,
-      alpha: Math.random() * .45 + .08
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.5+.3,
+      vx: (Math.random()-.5)*.35, vy: (Math.random()-.5)*.35,
+      alpha: Math.random()*.5+.06
     };
   }
-
   function init() {
     resize();
-    const count = window.innerWidth < 768 ? 40 : 90;
-    particles = Array.from({ length: count }, mkParticle);
+    particles = Array.from({length: window.innerWidth<768?35:80}, mkParticle);
   }
-
   function draw() {
-    ctx.clearRect(0, 0, W, H);
+    ctx.clearRect(0,0,W,H);
     particles.forEach(p => {
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
       ctx.fillStyle = `rgba(201,168,76,${p.alpha})`;
       ctx.fill();
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W;
-      if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H;
-      if (p.y > H) p.y = 0;
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
     });
     raf = requestAnimationFrame(draw);
   }
-
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { cancelAnimationFrame(raf); }
-    else { draw(); }
+    document.hidden ? cancelAnimationFrame(raf) : draw();
   });
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(init, 200);
-  });
-
-  init();
-  draw();
+  let rt;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt=setTimeout(init,200); }, {passive:true});
+  init(); draw();
 })();
 
 /* ================================================
@@ -1535,6 +1640,16 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('.product-card')) {
     document.querySelectorAll('.product-card.flipped').forEach(c => c.classList.remove('flipped'));
   }
+});
+
+/* ================================================
+   iOS: prevent double-tap zoom on buttons
+================================================ */
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('touchend', e => {
+    e.preventDefault();
+    el.click();
+  }, {passive:false});
 });
 </script>
 </body>
