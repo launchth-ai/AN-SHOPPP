@@ -722,13 +722,11 @@
        MOBILE (≤768)
     ============================================= */
     @media (max-width: 768px) {
-      /* Nav */
       nav { padding: .8rem 1.2rem; padding-top: calc(.8rem + var(--safe-top)); }
       .nav-links, .nav-btn { display: none; }
       .hamburger { display: flex; }
       .logo { font-size: 1.45rem; }
 
-      /* Hero */
       .hero {
         grid-template-columns: 1fr;
         padding: 2rem 1.2rem 2.5rem;
@@ -753,47 +751,35 @@
         padding: .9rem 1.2rem;
       }
 
-      /* Ticker */
       .ticker-item { font-size: .83rem; padding: 0 1.5rem; }
 
-      /* Trust */
       .trust-section { padding: 2rem 1.2rem; }
       .trust-grid { grid-template-columns: repeat(2,1fr); gap: .85rem; }
       .trust-card { padding: 1.1rem .9rem; }
 
-      /* Products */
       .products { padding: 2.5rem 1.2rem; }
       .products-grid { grid-template-columns: 1fr; gap: 1rem; }
       .section-header { flex-direction: column; align-items: flex-start; gap: .65rem; }
       .product-card { height: 380px; }
-      /* Disable hover flip on mobile, use tap instead */
       .product-card:hover .card-inner { transform: none; }
       .product-card.flipped .card-inner { transform: rotateY(180deg); }
 
-      /* About */
       .about { grid-template-columns: 1fr; }
       .about-img-box { min-height: 240px; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
       .about-content { padding: 2.5rem 1.2rem; }
       .about-num { font-size: 4rem; }
       .about-title { font-size: 2rem; }
 
-      /* Details */
       .details-section { padding: 2.5rem 1.2rem; }
       .detail-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.25rem; }
       .detail-icon { width: 46px; height: 46px; }
 
-      /* Progress */
       .progress-section { padding: 2.5rem 1.2rem; }
-
-      /* FAQ */
       .faq-section { padding: 2.5rem 1.2rem; }
-
-      /* Contact */
       .contact { padding: 2.5rem 1.2rem; }
       .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
       .btn-tg-big { width: 100%; justify-content: center; }
 
-      /* Footer */
       footer {
         padding: 1.25rem;
         padding-bottom: calc(1.25rem + var(--safe-bot));
@@ -803,18 +789,13 @@
         gap: .5rem;
       }
 
-      /* Modal */
       .modal-box { padding: 1.5rem; border-radius: 14px; }
       .modal-name  { font-size: 1.6rem; }
       .modal-price { font-size: 2rem; }
 
-      /* Telegram float */
       .tg-float { width: 52px; height: 52px; bottom: calc(1rem + var(--safe-bot)); right: calc(1rem + var(--safe-r)); }
     }
 
-    /* =============================================
-       SMALL PHONES (≤390)
-    ============================================= */
     @media (max-width: 390px) {
       .hero-title { font-size: 2.5rem; }
       .stat { padding: .8rem; }
@@ -822,16 +803,10 @@
       .trust-grid { grid-template-columns: 1fr; }
     }
 
-    /* =============================================
-       REDUCED MOTION
-    ============================================= */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
 
-    /* =============================================
-       SCROLLBAR
-    ============================================= */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--dark); }
     ::-webkit-scrollbar-thumb { background: var(--gold3); border-radius: 50px; }
@@ -978,34 +953,34 @@
   <div class="products-grid">
 
     <!-- PRODUCTO 1 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $350">
-      <div class="product-info" style="display:none;"> <!-- data only -->
-        <div class="product-cat">SERVICIO</div>
-        <div class="product-name">Tarjeta CCS — $350 de Saldo</div>
-        <div class="product-price">$45 USD</div>
-      </div>
-      <!-- Built by JS -->
-    </div>
+    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $350"></div>
 
     <!-- PRODUCTO 2 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta PayPal $350">
-    </div>
+    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta PayPal $350"></div>
 
     <!-- PRODUCTO 3 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Software Blouked">
-    </div>
+    <div class="product-card" role="button" tabindex="0" aria-label="Software Blouked"></div>
 
     <!-- PRODUCTO 4 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $500">
-    </div>
+    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $500"></div>
 
     <!-- PRODUCTO 5 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $800">
-    </div>
+    <div class="product-card" role="button" tabindex="0" aria-label="Tarjeta CCS $800"></div>
 
     <!-- PRODUCTO 6 -->
-    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta PayPal $800">
-    </div>
+    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta PayPal $800"></div>
+
+    <!-- PRODUCTO 7 — Cuenta Binance Verificada KYC -->
+    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta Binance Verificada"></div>
+
+    <!-- PRODUCTO 8 — Cuenta Binance con Saldo USDT -->
+    <div class="product-card" role="button" tabindex="0" aria-label="Cuenta Binance con Saldo USDT"></div>
+
+    <!-- PRODUCTO 9 — Completá vos: cambiá cat, name, price, badge, emoji, desc y points en el array JS -->
+    <div class="product-card" role="button" tabindex="0" aria-label="Producto personalizado 1"></div>
+
+    <!-- PRODUCTO 10 — Completá vos: cambiá cat, name, price, badge, emoji, desc y points en el array JS -->
+    <div class="product-card" role="button" tabindex="0" aria-label="Producto personalizado 2"></div>
 
   </div>
 </section>
@@ -1080,6 +1055,27 @@
       </div>
     </div>
   </div>
+
+  <div class="detail-card">
+    <div class="detail-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <div class="detail-content">
+      <h3 class="detail-title">Cuentas Binance — ¿Cómo funcionan?</h3>
+      <div class="detail-body">
+        <p>Vendemos cuentas Binance verificadas con KYC completo, listas para operar al instante. También disponemos de cuentas con saldo en USDT para trading o transferencias cripto.</p>
+        <ul>
+          <li>✦ KYC verificado — listas para usar de inmediato</li>
+          <li>✦ Email y contraseña entregados directamente por Telegram</li>
+          <li>✦ Entrega en menos de 30 minutos</li>
+          <li>✦ Soporte ante cualquier inconveniente</li>
+        </ul>
+        <div class="detail-note">
+          <strong>Recomendación:</strong> Una vez recibida la cuenta, cambiá la contraseña y usala con prudencia. Contactanos ante cualquier problema.
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ===== PROGRESS ===== -->
@@ -1120,8 +1116,13 @@
   </div>
 </section>
 
-
-
+<!-- ===== ABOUT ===== -->
+<section class="about" id="nosotros">
+  <div class="about-img-box">
+    <span style="color:#333;font-size:.85rem;text-align:center;padding:2rem;">
+      Reemplazá con tu imagen<br>
+      <code style="color:var(--gold);font-size:.75rem;">&lt;img src="about.jpg"&gt;</code>
+    </span>
   </div>
   <div class="about-content">
     <div class="about-num">01</div>
@@ -1226,8 +1227,10 @@
 <script>
 /* ================================================
    PRODUCT DATA
+   — Productos 9 y 10: editá cat, name, price, badge, emoji, desc y points
 ================================================ */
 const products = [
+  // 1
   {
     cat: 'SERVICIO',
     name: 'Tarjeta CCS — $350 de Saldo',
@@ -1237,6 +1240,7 @@ const products = [
     desc: 'Tarjeta para compras online con saldo real disponible. Fácil de usar en tiendas como Amazon, Shein, AliExpress y más.',
     points: ['✦ Entrega instantánea por Telegram', '✦ Funciona en Amazon, Shein, AliExpress, Temu', '✦ Sin riesgo para el comprador', '✦ Garantía de reposición incluida']
   },
+  // 2
   {
     cat: 'SERVICIO',
     name: 'Cuenta PayPal — $350 de Saldo',
@@ -1246,6 +1250,7 @@ const products = [
     desc: 'Cuenta PayPal verificada con saldo disponible para usar de inmediato. Acceso completo incluido.',
     points: ['✦ Email y contraseña entregados por Telegram', '✦ Cuenta verificada con saldo real', '✦ Entrega en menos de 30 minutos', '✦ Soporte ante cualquier inconveniente']
   },
+  // 3
   {
     cat: 'PROGRAMA',
     name: 'Software Blouked',
@@ -1255,6 +1260,7 @@ const products = [
     desc: 'Herramienta especializada para automatizar procesos. Compatible con Windows 10/11. Entrega digital inmediata.',
     points: ['✦ Compatible con Windows 10 y 11', '✦ Entrega digital inmediata tras el pago', '✦ Soporte técnico incluido', '✦ Actualizaciones garantizadas']
   },
+  // 4
   {
     cat: 'SERVICIO',
     name: 'Tarjeta CCS — $500 de Saldo',
@@ -1264,15 +1270,17 @@ const products = [
     desc: 'Mayor capacidad de compra online. Ideal para compras frecuentes o de mayor volumen en tiendas internacionales.',
     points: ['✦ Entrega instantánea por Telegram', '✦ Funciona en todas las tiendas online', '✦ Sin riesgo para el comprador', '✦ Garantía de reposición incluida']
   },
+  // 5
   {
     cat: 'SERVICIO',
     name: 'Tarjeta CCS — $800 de Saldo',
     price: '$90 USD',
     badge: null,
     emoji: '💳',
-    desc: 'Nuestra tarjeta de mayor capacidad. Perfecta para compras grandes o para revender los saldos.',
+    desc: 'Nuestra tarjeta de gran preferencia. Perfecta para compras grandes o para retirar los saldos.',
     points: ['✦ Mayor saldo disponible', '✦ Entrega instantánea por Telegram', '✦ Sin riesgo para el comprador', '✦ Garantía de reposición incluida']
   },
+  // 6
   {
     cat: 'SERVICIO',
     name: 'Cuenta PayPal — $800 de Saldo',
@@ -1281,7 +1289,39 @@ const products = [
     emoji: '🅿️',
     desc: 'Cuenta PayPal verificada con $800 de saldo. Para operaciones de mayor volumen con acceso completo.',
     points: ['✦ Email y contraseña entregados por Telegram', '✦ Cuenta verificada con saldo real', '✦ Ideal para compras de mayor volumen', '✦ Soporte ante cualquier inconveniente']
-  }
+  },
+  // 7 — BINANCE KYC
+  {
+    cat: 'CRIPTO',
+    name: 'Cuenta Binance Verificada — $600 de saldo',
+    price: '$80 USD',
+    badge: 'NUEVO',
+    emoji: '💰',
+    desc: 'Cuenta Binance con verificación KYC completa. Lista para retirar el dinero al instante. Acceso total con email y contraseña entregados por Telegram.',
+    points: ['✦ Cuenta con verificación KYC completa', '✦ Email y contraseña entregados por Telegram', '✦ Lista para retirar el dinero al instante', '✦ Soporte ante cualquier inconveniente']
+  },
+  // 8 — BINANCE SALDO USDT
+  {
+    cat: 'CRIPTO',
+    name: 'Cuenta Binance Verificada —  $900 de saldo',
+    price: '$95  USD',
+    badge: 'TOP',
+    emoji: '💰',
+    desc: 'Cuenta Binance verificada con saldo en USDT disponible para retirar de inmediato. Ideal para retiros o transferencias cripto.',
+    points: ['✦ Saldo en USDT disponible', '✦ Cuenta verificada KYC', '✦ Entrega en menos de 30 minutos', '✦ Garantía de reposición incluida']
+  },
+ 
+  {
+    cat: 'SERVICIO',
+    name: 'Tarjeta CCS - $1200 de Saldo'  ,
+    price: '$120 USD',
+    badge: null,
+    emoji: '⭐',
+    desc: 'Nuestra tarjeta de mayor capacidad. Perfecta para compras grandes o para retirar los saldos.',
+    points: ['✦ Facil y segura', '✦ Ideal para Mercado Libre', '✦ Facil de usar', '✦ Entrega rapida']
+  },
+  // 10 — ✏️ COMPLETÁ VOS: cambiá los valores de cat, name, price, badge, emoji, desc y points
+
 ];
 
 /* ================================================
@@ -1321,7 +1361,6 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
       </div>
     </div>`;
 
-  // Desktop: click = modal, mobile: tap = flip toggle
   card.addEventListener('click', (e) => {
     if (isMobile()) {
       card.classList.toggle('flipped');
@@ -1330,7 +1369,6 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
     }
   });
 
-  // Keyboard accessibility
   card.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(i); }
   });
@@ -1475,7 +1513,6 @@ document.querySelectorAll('.trust-card, .detail-card, .faq-item, .cinfo').forEac
     raf = requestAnimationFrame(draw);
   }
 
-  // Pause when tab hidden (battery saving)
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { cancelAnimationFrame(raf); }
     else { draw(); }
