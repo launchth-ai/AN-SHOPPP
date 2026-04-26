@@ -1162,6 +1162,10 @@
       .testimonials-section,.steps-section { padding:2.5rem 1.1rem; }
       .toast-container { left:.75rem; max-width:calc(100vw - 1.5rem); bottom:calc(5rem + var(--safe-bot)); }
       .swipe-hint { display:flex; }
+      /* viewers bar mobile: ocultar items secundarios */
+      #responseTimeText, .live-sep:last-of-type { display:none; }
+      /* flash banner mobile */
+      #flashBanner { bottom:calc(4.5rem + var(--safe-bot)); border-radius:8px; padding:.7rem 1rem; }
     }
 
     @media (max-width:390px) {
@@ -1172,6 +1176,47 @@
   </style>
 </head>
 <body>
+
+<!-- ===== PRELOADER ===== -->
+<div id="preloader" style="
+  position:fixed;inset:0;background:#0a0a0a;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
+">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:8px;color:#c9a84c;animation:glowGold 1.5s ease-in-out infinite;">AN_SHOP</div>
+  <div style="display:flex;gap:.45rem;">
+    <div class="cs-dot" style="opacity:.9;"></div>
+    <div class="cs-dot" style="animation-delay:.2s;opacity:.9;"></div>
+    <div class="cs-dot" style="animation-delay:.4s;opacity:.9;"></div>
+  </div>
+  <div style="font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:#555;">Servicios Digitales</div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== FLASH OFFER BANNER (aparece al 70% scroll) ===== -->
+<div id="flashBanner" style="
+  display:none;position:fixed;bottom:calc(1.2rem + var(--safe-bot));left:50%;transform:translateX(-50%);
+  z-index:950;background:#0e0e0e;border:1px solid rgba(192,57,43,.5);border-radius:10px;
+  padding:.85rem 1.4rem;display:none;align-items:center;gap:.9rem;
+  box-shadow:0 8px 40px rgba(0,0,0,.7);max-width:min(420px,92vw);width:100%;
+  animation:slideUp .4s cubic-bezier(.34,1.56,.64,1);
+">
+  <span style="font-size:1.2rem;">🔥</span>
+  <div style="flex:1;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#e74c3c;letter-spacing:.08em;">PRECIO ESPECIAL HOY</div>
+    <div style="font-size:.72rem;color:#aaa;margin-top:.1rem;">Consultá descuento exclusivo por Telegram</div>
+  </div>
+  <a href="https://t.me/AN_shopp" target="_blank" rel="noopener" style="
+    background:#c0392b;color:#fff;padding:.45rem 1rem;border-radius:5px;
+    font-size:.7rem;font-weight:700;text-decoration:none;letter-spacing:.06em;
+    white-space:nowrap;flex-shrink:0;
+  ">Ver oferta →</a>
+  <button onclick="document.getElementById('flashBanner').style.display='none'" style="
+    background:none;border:none;color:#555;font-size:1rem;cursor:pointer;
+    padding:.2rem;line-height:1;flex-shrink:0;
+  ">✕</button>
+</div>
 
 <!-- ===== CUSTOM CURSOR (desktop) ===== -->
 <div class="custom-cursor" id="customCursor" aria-hidden="true"></div>
@@ -1349,11 +1394,11 @@
 <div class="live-counter-bar">
   <div class="live-counter-item">
     <div class="live-dot"></div>
-    <span><span class="live-counter-num" id="liveClients">12</span> clientes atendidos hoy</span>
+    <span><span class="live-counter-num" id="liveClients">0</span> clientes atendidos este mes</span>
   </div>
   <div class="live-sep">◆</div>
   <div class="live-counter-item">
-    <span>⚡ <span class="live-counter-num" id="liveDeliveries">9</span> entregas completadas</span>
+    <span>⚡ <span class="live-counter-num" id="liveDeliveries">0</span> entregas completadas</span>
   </div>
   <div class="live-sep">◆</div>
   <div class="live-counter-item">
@@ -1362,19 +1407,35 @@
 </div>
 
 <!-- ===== OFFER TIMER ===== -->
-<div class="offer-timer-bar">
+<div class="offer-timer-bar" id="offerTimerBar" style="display:none;">
   <div class="offer-timer-label">
     <span class="fire">🔥</span>
     <span>Oferta especial — termina en:</span>
   </div>
   <div class="timer-digits">
-    <div class="timer-block" id="timerH">02</div>
+    <div class="timer-block" id="timerH">08</div>
     <span class="timer-sep">:</span>
-    <div class="timer-block" id="timerM">45</div>
+    <div class="timer-block" id="timerM">00</div>
     <span class="timer-sep">:</span>
     <div class="timer-block" id="timerS">00</div>
   </div>
   <span style="color:#888;font-size:.67rem;">· Consultá precio especial por Telegram</span>
+</div>
+
+<!-- ===== VIEWERS BAR ===== -->
+<div class="live-counter-bar" style="border-top:none;padding:.45rem 2.5rem;background:rgba(201,168,76,.04);">
+  <div class="live-counter-item">
+    <div class="live-dot" style="background:#e74c3c;box-shadow:0 0 6px rgba(231,76,60,.6);"></div>
+    <span><span class="live-counter-num" id="liveViewers">7</span> personas viendo ahora</span>
+  </div>
+  <div class="live-sep">◆</div>
+  <div class="live-counter-item">
+    <span id="responseTimeText">⚡ Respondemos en menos de 5 min</span>
+  </div>
+  <div class="live-sep">◆</div>
+  <div class="live-counter-item">
+    <span>🕐 Última venta hace <span id="lastSaleMin">8</span> min</span>
+  </div>
 </div>
 
 <!-- ===== TRUST ===== -->
@@ -1961,6 +2022,19 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
 });
 
 /* ================================================
+   PRELOADER
+================================================ */
+window.addEventListener('load', () => {
+  const pre = document.getElementById('preloader');
+  if (!pre) return;
+  setTimeout(() => {
+    pre.style.transition = 'opacity .6s ease';
+    pre.style.opacity = '0';
+    setTimeout(() => pre.style.display = 'none', 650);
+  }, 1400);
+});
+
+/* ================================================
    POPUP
 ================================================ */
 function closePopup() {
@@ -2121,11 +2195,296 @@ document.addEventListener('click', e => {
 });
 
 /* ================================================
-   iOS double-tap fix-
+   iOS double-tap fix
 ================================================ */
 document.querySelectorAll('a,button').forEach(el => {
   el.addEventListener('touchend', e => { e.preventDefault(); el.click(); }, {passive:false});
 });
+
+/* ================================================
+   CONTADORES PROGRESIVOS MENSUALES
+   Máx: 200 clientes, 220 entregas
+   Sube de forma proporcional al % del mes transcurrido
+   + variación aleatoria diaria
+================================================ */
+(function() {
+  const MAX_CLIENTS   = 200;
+  const MAX_DELIVERIES = 220;
+
+  const now     = new Date();
+  const year    = now.getFullYear();
+  const month   = now.getMonth();
+  const dayOfMonth = now.getDate();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  // Progreso base del mes (0 a 1)
+  const progress = dayOfMonth / daysInMonth;
+
+  // Semilla diaria determinista para la variación random del día
+  const seed = year * 10000 + (month + 1) * 100 + dayOfMonth;
+  function seededRand(s) {
+    let x = Math.sin(s) * 10000;
+    return x - Math.floor(x);
+  }
+
+  // Variación aleatoria: ±10% del máximo
+  const clientVariance   = Math.floor((seededRand(seed) - 0.5) * 0.2 * MAX_CLIENTS);
+  const deliveryVariance = Math.floor((seededRand(seed + 1) - 0.5) * 0.2 * MAX_DELIVERIES);
+
+  const targetClients    = Math.min(MAX_CLIENTS,   Math.max(1, Math.round(MAX_CLIENTS   * progress) + clientVariance));
+  const targetDeliveries = Math.min(MAX_DELIVERIES, Math.max(1, Math.round(MAX_DELIVERIES * progress) + deliveryVariance));
+
+  function animateCount(el, target, duration) {
+    if (!el) return;
+    let start = null;
+    const step = (ts) => {
+      if (!start) start = ts;
+      const pct = Math.min((ts - start) / duration, 1);
+      // ease out
+      const ease = 1 - Math.pow(1 - pct, 3);
+      el.textContent = Math.round(ease * target);
+      if (pct < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // Esperar a que los elementos estén en pantalla
+  const clientEl    = document.getElementById('liveClients');
+  const deliveryEl  = document.getElementById('liveDeliveries');
+
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCount(clientEl,   targetClients,    1800);
+        animateCount(deliveryEl, targetDeliveries, 2000);
+        counterObs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  if (clientEl) counterObs.observe(clientEl.closest('.live-counter-bar') || clientEl);
+})();
+
+/* ================================================
+   OFERTA ESPECIAL — DÍAS RANDOM DE LA SEMANA
+   Se activa en días aleatorios (seed semanal)
+   Timer: 8 o 12 horas elegido al azar por semana
+================================================ */
+(function() {
+  const now = new Date();
+  // Número de semana del año como semilla
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const weekNum = Math.floor((now - startOfYear) / (7 * 86400000));
+
+  // Seed determinista por semana
+  function seededRand(s) {
+    let x = Math.sin(s * 9301 + 49297) * 233280;
+    return (x - Math.floor(x));
+  }
+
+  // Elegir 3 días random de la semana para que haya oferta (0=Dom … 6=Sáb)
+  const allDays = [0,1,2,3,4,5,6];
+  // Shuffle seeded
+  const shuffled = allDays.slice().sort((a, b) => seededRand(weekNum + a * 7) - seededRand(weekNum + b * 7));
+  const offerDays = shuffled.slice(0, 3); // 3 días al azar por semana
+
+  const todayDow = now.getDay(); // 0-6
+  const isOfferDay = offerDays.includes(todayDow);
+
+  if (!isOfferDay) return; // no hay oferta hoy
+
+  // Duración: 8 o 12 horas (50/50 por semana)
+  const durationHours = seededRand(weekNum * 3) > 0.5 ? 12 : 8;
+  const durationSec   = durationHours * 3600;
+
+  // Calcular segundos restantes desde medianoche
+  const secondsToday = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+  // La oferta arranca a una hora random del día (entre 0 y 16)
+  const offerStartHour = Math.floor(seededRand(weekNum * 5 + todayDow) * 16);
+  const offerStartSec  = offerStartHour * 3600;
+  const offerEndSec    = offerStartSec + durationSec;
+
+  if (secondsToday < offerStartSec || secondsToday >= offerEndSec) return;
+
+  let remaining = offerEndSec - secondsToday;
+
+  const bar = document.getElementById('offerTimerBar');
+  if (!bar) return;
+  bar.style.display = 'flex';
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    if (remaining <= 0) {
+      bar.style.display = 'none';
+      return;
+    }
+    const h = Math.floor(remaining / 3600);
+    const m = Math.floor((remaining % 3600) / 60);
+    const s = remaining % 60;
+    document.getElementById('timerH').textContent = pad(h);
+    document.getElementById('timerM').textContent = pad(m);
+    document.getElementById('timerS').textContent = pad(s);
+    remaining--;
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
+
+/* ================================================
+   PERSONAS VIENDO AHORA — cambia cada 30s
+================================================ */
+(function() {
+  const el = document.getElementById('liveViewers');
+  if (!el) return;
+  function randomViewers() { return Math.floor(Math.random() * 15) + 4; } // 4-18
+  el.textContent = randomViewers();
+  setInterval(() => {
+    const cur = parseInt(el.textContent);
+    // Suave: ±1 o ±2
+    const delta = Math.floor(Math.random() * 5) - 2;
+    el.textContent = Math.max(4, Math.min(18, cur + delta));
+  }, 30000);
+})();
+
+/* ================================================
+   TIEMPO DE RESPUESTA DINÁMICO (por hora del día)
+================================================ */
+(function() {
+  const el = document.getElementById('responseTimeText');
+  if (!el) return;
+  const h = new Date().getHours();
+  // Horario pico: más rápido. Madrugada: un poco más lento
+  if (h >= 9 && h <= 23) {
+    el.textContent = '⚡ Respondemos en menos de 5 min';
+  } else {
+    el.textContent = '⚡ Respondemos en menos de 30 min';
+  }
+})();
+
+/* ================================================
+   CONTADOR ÚLTIMA VENTA — sube cada X minutos
+================================================ */
+(function() {
+  const el = document.getElementById('lastSaleMin');
+  if (!el) return;
+  // Minutos random inicial entre 2 y 20
+  let mins = Math.floor(Math.random() * 18) + 2;
+  el.textContent = mins;
+  setInterval(() => {
+    mins++;
+    if (mins > 35) {
+      // "Se vendió algo nuevo"
+      mins = Math.floor(Math.random() * 3) + 1;
+    }
+    el.textContent = mins;
+  }, 60000);
+})();
+
+/* ================================================
+   ÚLTIMAS UNIDADES — badge random por producto
+================================================ */
+(function() {
+  const now = new Date();
+  const seed = now.getFullYear() * 1000 + now.getMonth() * 100 + now.getDate();
+  function seededRand(s) { let x = Math.sin(s) * 10000; return x - Math.floor(x); }
+
+  // Esperar a que las cards se generen
+  setTimeout(() => {
+    document.querySelectorAll('.product-card').forEach((card, i) => {
+      const r = seededRand(seed + i * 17);
+      if (r < 0.35) { // 35% de las cards tienen "últimas unidades"
+        const qty = Math.floor(seededRand(seed + i * 31) * 4) + 1; // 1-4
+        const front = card.querySelector('.card-front');
+        if (!front) return;
+        const badge = document.createElement('div');
+        badge.style.cssText = `
+          position:absolute;top:.6rem;left:.6rem;
+          background:rgba(192,57,43,.85);color:#fff;
+          font-size:.58rem;font-weight:700;padding:.2rem .55rem;border-radius:3px;
+          letter-spacing:.06em;text-transform:uppercase;z-index:2;
+          border:1px solid rgba(192,57,43,.6);
+        `;
+        badge.textContent = `Últimas ${qty}`;
+        const imgDiv = front.querySelector('.product-img');
+        if (imgDiv) imgDiv.style.position = 'relative', imgDiv.appendChild(badge);
+      }
+    });
+  }, 500);
+})();
+
+/* ================================================
+   TOASTS DE VENTAS RECIENTES
+================================================ */
+(function() {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  const paises = ['🇦🇷','🇺🇾','🇧🇷','🇲🇽','🇨🇱','🇨🇴','🇵🇾','🇧🇴','🇵🇪','🇻🇪'];
+  const productos = [
+    'Tarjeta CCS $350','Tarjeta CCS $500','Tarjeta CCS $800',
+    'Cuenta PayPal $350','Cuenta PayPal $800','Cuenta Binance $600',
+    'Tarjeta CCS $1200','Cuenta Binance $900','Cuenta PayPal $1500'
+  ];
+  const hace = [2,4,5,7,9,11,14,18,21,25];
+
+  function showToast() {
+    const pais = paises[Math.floor(Math.random() * paises.length)];
+    const prod = productos[Math.floor(Math.random() * productos.length)];
+    const min  = hace[Math.floor(Math.random() * hace.length)];
+
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.innerHTML = `<span class="toast-icon">${pais}</span><span class="toast-text">Alguien acaba de comprar <strong>${prod}</strong> hace ${min} min</span>`;
+    container.appendChild(t);
+    setTimeout(() => t.remove(), 3800);
+  }
+
+  // Primera aparición: 8-15 seg después de cargar
+  setTimeout(showToast, 8000 + Math.random() * 7000);
+
+  // Luego cada 35-70 seg
+  function scheduleNext() {
+    const delay = 35000 + Math.random() * 35000;
+    setTimeout(() => { showToast(); scheduleNext(); }, delay);
+  }
+  scheduleNext();
+})();
+
+/* ================================================
+   FLASH BANNER (aparece al 70% de scroll, 1 vez)
+================================================ */
+(function() {
+  const banner = document.getElementById('flashBanner');
+  if (!banner) return;
+  let shown = false;
+  window.addEventListener('scroll', () => {
+    if (shown) return;
+    const scrollPct = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+    if (scrollPct >= 0.7) {
+      shown = true;
+      banner.style.display = 'flex';
+      // Auto-ocultar tras 12 seg
+      setTimeout(() => { banner.style.display = 'none'; }, 12000);
+    }
+  }, { passive: true });
+})();
+
+/* ================================================
+   HERO PARALLAX SUTIL (solo desktop)
+================================================ */
+(function() {
+  if (window.innerWidth < 769) return;
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  window.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth  - 0.5) * 18;
+    const y = (e.clientY / window.innerHeight - 0.5) * 12;
+    hero.style.backgroundPosition = `calc(50% + ${x}px) calc(50% + ${y}px)`;
+    const canvas = document.getElementById('particles-canvas');
+    if (canvas) canvas.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
