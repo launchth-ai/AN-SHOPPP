@@ -2381,37 +2381,7 @@ document.querySelectorAll('a,button').forEach(el => {
   }, 60000);
 })();
 
-/* ================================================
-   ÚLTIMAS UNIDADES — badge random por producto
-================================================ */
-(function() {
-  const now = new Date();
-  const seed = now.getFullYear() * 1000 + now.getMonth() * 100 + now.getDate();
-  function seededRand(s) { let x = Math.sin(s) * 10000; return x - Math.floor(x); }
-
-  // Esperar a que las cards se generen
-  setTimeout(() => {
-    document.querySelectorAll('.product-card').forEach((card, i) => {
-      const r = seededRand(seed + i * 17);
-      if (r < 0.35) { // 35% de las cards tienen "últimas unidades"
-        const qty = Math.floor(seededRand(seed + i * 31) * 4) + 1; // 1-4
-        const front = card.querySelector('.card-front');
-        if (!front) return;
-        const badge = document.createElement('div');
-        badge.style.cssText = `
-          position:absolute;top:.6rem;left:.6rem;
-          background:rgba(192,57,43,.85);color:#fff;
-          font-size:.58rem;font-weight:700;padding:.2rem .55rem;border-radius:3px;
-          letter-spacing:.06em;text-transform:uppercase;z-index:2;
-          border:1px solid rgba(192,57,43,.6);
-        `;
-        badge.textContent = `Últimas ${qty}`;
-        const imgDiv = front.querySelector('.product-img');
-        if (imgDiv) imgDiv.style.position = 'relative', imgDiv.appendChild(badge);
-      }
-    });
-  }, 500);
-})();
+/* ÚLTIMAS UNIDADES — desactivado */
 
 /* ================================================
    TOASTS DE VENTAS RECIENTES
@@ -2420,7 +2390,7 @@ document.querySelectorAll('a,button').forEach(el => {
   const container = document.getElementById('toastContainer');
   if (!container) return;
 
-  const paises = ['🇦🇷','🇺🇾','🇧🇷','🇲🇽','🇨🇱','🇨🇴','🇵🇾','🇧🇴','🇵🇪','🇻🇪'];
+  const paises = ['🇪🇸','🇧🇷','🇦🇷','🇺🇾','🇵🇪','🇳🇮','🇻🇪','🇪🇨','🇨🇱','🇦🇷','🇧🇴','🇲🇽','🇺🇸','🇧🇴','🇬🇹','🇭🇳','🇨🇷'];
   const productos = [
     'Tarjeta CCS $350','Tarjeta CCS $500','Tarjeta CCS $800',
     'Cuenta PayPal $350','Cuenta PayPal $800','Cuenta Binance $600',
