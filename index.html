@@ -865,6 +865,399 @@
     }
 
     /* =============================================
+       FERROFLUID / METABALL CANVAS
+    ============================================= */
+    #ferroCanvas {
+      position:fixed; inset:0; width:100%; height:100%;
+      pointer-events:none; z-index:0; opacity:.55;
+    }
+
+    /* =============================================
+       SALUDO HERO (dinámico por hora)
+    ============================================= */
+    .hero-greeting {
+      font-size:.75rem; color:var(--gold); letter-spacing:.18em;
+      text-transform:uppercase; margin-bottom:.5rem;
+      opacity:.9; font-weight:400;
+      display:flex; align-items:center; gap:.5rem;
+    }
+    .hero-greeting-emoji { font-size:.9rem; }
+
+    /* =============================================
+       RETURN VISITOR BANNER
+    ============================================= */
+    .return-banner {
+      display:none; position:fixed; top:calc(60px + var(--safe-top));
+      left:50%; transform:translateX(-50%);
+      background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.35);
+      border-radius:50px; padding:.42rem 1.1rem;
+      font-size:.72rem; color:var(--gold); letter-spacing:.08em;
+      z-index:500; backdrop-filter:blur(12px);
+      white-space:nowrap; animation:fadeIn .5s ease;
+      box-shadow:0 4px 20px rgba(201,168,76,.15);
+    }
+    .return-banner.show { display:block; }
+
+    /* =============================================
+       PRECIO DINÁMICO badge
+    ============================================= */
+    .dynamic-price-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      background:rgba(192,57,43,.1); border:1px solid rgba(192,57,43,.35);
+      border-radius:4px; padding:.18rem .55rem;
+      font-size:.62rem; color:#e74c3c; letter-spacing:.08em;
+      animation:warnBlink 2s ease infinite;
+    }
+    .dynamic-price-badge::before { content:'↑'; font-weight:700; }
+    .price-dynamic-wrap { position:relative; display:inline-block; }
+    .price-rising-tag {
+      position:absolute; top:-18px; right:0;
+      font-size:.55rem; color:#e74c3c; letter-spacing:.06em;
+      white-space:nowrap; opacity:.85;
+    }
+
+    /* =============================================
+       MAPA DE VENTAS EN VIVO
+    ============================================= */
+    .sales-map-section {
+      padding:3rem 1.1rem 2.5rem;
+      background:var(--mid);
+      border-top:1px solid rgba(255,255,255,.05);
+      position:relative; overflow:hidden;
+    }
+    .sales-map-section::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,168,76,.03) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .sales-map-header { margin-bottom:1.25rem; }
+    .sales-map-header .section-title { font-size:clamp(1.5rem,5vw,2.2rem); }
+    .sales-map-wrap {
+      position:relative; width:100%; max-width:700px; margin:0 auto;
+      border-radius:10px; overflow:hidden;
+      border:1px solid rgba(201,168,76,.1);
+      background:#080808;
+    }
+    #salesMapSvg { width:100%; height:auto; display:block; }
+    .map-dot {
+      position:absolute; width:10px; height:10px; border-radius:50%;
+      background:var(--gold); transform:translate(-50%,-50%);
+      animation:mapPing 1.8s ease-out forwards;
+      pointer-events:none;
+    }
+    @keyframes mapPing {
+      0%{opacity:1;box-shadow:0 0 0 0 rgba(201,168,76,.8);transform:translate(-50%,-50%) scale(1)}
+      70%{box-shadow:0 0 0 14px rgba(201,168,76,0)}
+      100%{opacity:0;transform:translate(-50%,-50%) scale(1.4)}
+    }
+    .sales-log {
+      margin-top:1rem; display:flex; flex-direction:column; gap:.5rem;
+      max-height:130px; overflow:hidden;
+    }
+    .sales-log-item {
+      display:flex; align-items:center; gap:.6rem;
+      font-size:.75rem; color:#aaa; padding:.4rem .7rem;
+      background:rgba(255,255,255,.025); border-radius:6px;
+      border:1px solid rgba(255,255,255,.04);
+      animation:slideUp .4s ease;
+    }
+    .sales-log-flag { font-size:.95rem; flex-shrink:0; }
+    .sales-log-prod { color:var(--txt); font-weight:600; }
+    .sales-log-time { color:var(--muted); font-size:.68rem; margin-left:auto; white-space:nowrap; }
+
+    /* =============================================
+       CHAT WIDGET
+    ============================================= */
+    .chat-widget {
+      position:fixed;
+      bottom:calc(5rem + var(--safe-bot));
+      left:calc(1rem + var(--safe-l));
+      z-index:997;
+    }
+    .chat-toggle {
+      width:52px; height:52px; border-radius:50%;
+      background:linear-gradient(135deg, #111, #1a1a1a);
+      border:1.5px solid rgba(201,168,76,.4);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,.5);
+      transition:transform .2s, border-color .2s;
+      -webkit-tap-highlight-color:transparent;
+      position:relative;
+    }
+    .chat-toggle:active { transform:scale(.93); }
+    .chat-toggle svg { width:24px; height:24px; fill:var(--gold); }
+    .chat-notif {
+      position:absolute; top:-3px; right:-3px;
+      width:16px; height:16px; border-radius:50%;
+      background:var(--red2); border:2px solid var(--dark);
+      font-size:.52rem; color:#fff; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      animation:pulse 1.5s ease infinite;
+    }
+    .chat-panel {
+      position:absolute; bottom:62px; left:0;
+      width:min(300px, 88vw);
+      background:#0d0d0d; border:1px solid rgba(201,168,76,.2);
+      border-radius:14px; overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,.7);
+      display:none; flex-direction:column;
+      animation:fadeUp .3s ease;
+    }
+    .chat-panel.open { display:flex; }
+    .chat-header {
+      background:linear-gradient(135deg, #141414, #0f0f0f);
+      border-bottom:1px solid rgba(201,168,76,.12);
+      padding:.85rem 1rem;
+      display:flex; align-items:center; gap:.7rem;
+    }
+    .chat-avatar {
+      width:38px; height:38px; border-radius:50%;
+      background:rgba(201,168,76,.1); border:1.5px solid rgba(201,168,76,.3);
+      display:flex; align-items:center; justify-content:center;
+      font-size:1rem; flex-shrink:0;
+    }
+    .chat-header-info { flex:1; }
+    .chat-header-name { font-size:.85rem; font-weight:700; color:var(--txt); }
+    .chat-header-status {
+      font-size:.65rem; color:#4CAF50; display:flex; align-items:center; gap:.3rem; margin-top:.1rem;
+    }
+    .chat-header-status::before { content:''; width:5px; height:5px; background:#4CAF50; border-radius:50%; animation:pulse 1.5s ease infinite; }
+    .chat-close { background:none; border:none; color:#555; cursor:pointer; font-size:1rem; padding:.2rem; -webkit-tap-highlight-color:transparent; }
+    .chat-messages {
+      padding:.9rem; display:flex; flex-direction:column; gap:.65rem;
+      min-height:120px;
+    }
+    .chat-msg {
+      max-width:85%; padding:.6rem .85rem;
+      border-radius:12px; font-size:.8rem; line-height:1.6;
+    }
+    .chat-msg.bot {
+      background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.07);
+      color:#ccc; border-radius:4px 12px 12px 12px; align-self:flex-start;
+    }
+    .chat-typing {
+      display:flex; align-items:center; gap:.3rem;
+      padding:.5rem .85rem; background:rgba(255,255,255,.04);
+      border-radius:4px 12px 12px 12px; width:fit-content;
+      align-self:flex-start;
+    }
+    .chat-typing span {
+      width:6px; height:6px; border-radius:50%; background:#555;
+      animation:typingDot .9s ease-in-out infinite;
+    }
+    .chat-typing span:nth-child(2){animation-delay:.15s}
+    .chat-typing span:nth-child(3){animation-delay:.3s}
+    @keyframes typingDot { 0%,100%{background:#555;transform:translateY(0)} 50%{background:var(--gold);transform:translateY(-4px)} }
+    .chat-footer {
+      padding:.75rem 1rem;
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+    .chat-cta {
+      display:flex; align-items:center; justify-content:center; gap:.5rem;
+      background:var(--gold); color:var(--dark); padding:.72rem 1rem;
+      border-radius:8px; font-size:.8rem; font-weight:700; text-decoration:none;
+      text-transform:uppercase; letter-spacing:.06em;
+      transition:background .2s; -webkit-tap-highlight-color:transparent;
+    }
+    .chat-cta:active { background:var(--gold2); }
+    .chat-cta svg { width:16px; height:16px; fill:var(--dark); }
+
+    /* =============================================
+       BADGES VERIFICADO EN
+    ============================================= */
+    .verified-section {
+      padding:2rem 1.1rem;
+      background:var(--dark);
+      border-top:1px solid rgba(255,255,255,.05);
+      text-align:center;
+    }
+    .verified-label {
+      font-size:.6rem; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--muted); margin-bottom:1.1rem;
+      display:flex; align-items:center; gap:.75rem; justify-content:center;
+    }
+    .verified-label::before,.verified-label::after {
+      content:''; flex:1; max-width:60px; height:1px;
+      background:linear-gradient(90deg, transparent, rgba(201,168,76,.2), transparent);
+    }
+    .verified-badges {
+      display:flex; flex-wrap:wrap; gap:.7rem;
+      justify-content:center; align-items:center;
+    }
+    .vbadge {
+      display:flex; align-items:center; gap:.45rem;
+      background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07);
+      border-radius:8px; padding:.5rem .9rem;
+      font-size:.72rem; color:#888; letter-spacing:.06em;
+      transition:border-color .2s, color .2s, background .2s;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .vbadge:active { border-color:rgba(201,168,76,.3); color:var(--gold); background:rgba(201,168,76,.04); }
+    .vbadge-icon { font-size:1rem; }
+    .vbadge-check {
+      width:14px; height:14px; border-radius:50%;
+      background:rgba(76,175,80,.15); border:1px solid rgba(76,175,80,.4);
+      display:flex; align-items:center; justify-content:center;
+      font-size:.55rem; color:#4CAF50; flex-shrink:0;
+    }
+
+    /* =============================================
+       COMPRADORES RECIENTES (nombre parcial + avatar)
+    ============================================= */
+    .buyers-feed {
+      position:fixed;
+      bottom:calc(1rem + var(--safe-bot));
+      left:calc(1rem + var(--safe-l));
+      z-index:996;
+      display:flex; flex-direction:column; gap:.4rem;
+      pointer-events:none;
+    }
+    .buyer-pill {
+      display:flex; align-items:center; gap:.55rem;
+      background:rgba(10,10,10,.95); border:1px solid rgba(201,168,76,.2);
+      border-radius:50px; padding:.38rem .8rem .38rem .38rem;
+      font-size:.72rem; color:#ccc; max-width:230px;
+      backdrop-filter:blur(10px); box-shadow:0 4px 20px rgba(0,0,0,.5);
+      animation:slideInLeft .4s cubic-bezier(.34,1.56,.64,1);
+      pointer-events:none;
+    }
+    @keyframes slideInLeft {
+      from{opacity:0;transform:translateX(-30px)}
+      to{opacity:1;transform:translateX(0)}
+    }
+    .buyer-avatar {
+      width:26px; height:26px; border-radius:50%; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.8rem; font-weight:700; color:var(--dark);
+    }
+    .buyer-pill strong { color:var(--txt); }
+
+    /* =============================================
+       MODO NOCHE / DÍA — ajuste automático tono
+    ============================================= */
+    body.day-mode {
+      --dark: #0d0d0d;
+      --mid: #141414;
+    }
+    body.night-mode {
+      --dark: #070707;
+      --mid: #0e0e0e;
+    }
+
+    /* =============================================
+       PEDIDOS HOY — barra
+    ============================================= */
+    .orders-today-bar {
+      background:linear-gradient(90deg, rgba(76,175,80,.05), rgba(76,175,80,.09), rgba(76,175,80,.05));
+      border-top:1px solid rgba(76,175,80,.15);
+      border-bottom:1px solid rgba(76,175,80,.15);
+      padding:.5rem 1.1rem;
+      display:flex; align-items:center; justify-content:center;
+      gap:.7rem; font-size:.75rem; color:#aaa;
+      flex-wrap:wrap;
+    }
+    .orders-num {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:1.2rem; color:#4CAF50;
+    }
+    .orders-bar-slots {
+      display:flex; gap:.3rem; align-items:center;
+    }
+    .slot-dot {
+      width:8px; height:8px; border-radius:50%;
+      background:#4CAF50; opacity:.35;
+    }
+    .slot-dot.filled { opacity:1; animation:pulse 1.8s ease infinite; }
+
+    /* =============================================
+       SONIDO AMBIENTE — botón
+    ============================================= */
+    .sound-btn {
+      position:fixed; top:calc(4.5rem + var(--safe-top)); right:calc(.9rem + var(--safe-r));
+      z-index:500; width:36px; height:36px; border-radius:50%;
+      background:rgba(10,10,10,.9); border:1px solid rgba(201,168,76,.2);
+      color:var(--gold); display:flex; align-items:center; justify-content:center;
+      cursor:pointer; font-size:.9rem; -webkit-tap-highlight-color:transparent;
+      transition:border-color .2s, background .2s;
+      backdrop-filter:blur(8px);
+    }
+    .sound-btn:active { background:rgba(201,168,76,.1); border-color:var(--gold); }
+    .sound-btn.playing { border-color:var(--gold); background:rgba(201,168,76,.08); }
+
+    /* =============================================
+       DASHBOARD MÉTRICAS
+    ============================================= */
+    .metrics-section {
+      padding:2.5rem 1.1rem;
+      background:var(--dark);
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+    .metrics-grid {
+      display:grid; grid-template-columns:repeat(2,1fr);
+      gap:.75rem; margin-top:1.25rem;
+    }
+    .metric-card {
+      background:var(--card); border:1px solid rgba(255,255,255,.06);
+      border-radius:10px; padding:1.1rem;
+      position:relative; overflow:hidden;
+      transition:border-color .25s;
+    }
+    .metric-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:1px;
+      background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity:.2;
+    }
+    .metric-card:hover { border-color:rgba(201,168,76,.2); }
+    .metric-icon { font-size:1.3rem; margin-bottom:.5rem; }
+    .metric-val {
+      font-family:'Bebas Neue',sans-serif; font-size:1.8rem;
+      color:var(--gold); letter-spacing:.02em; line-height:1;
+    }
+    .metric-label { font-size:.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:.12em; margin-top:.25rem; }
+    .metric-trend {
+      position:absolute; top:.75rem; right:.75rem;
+      font-size:.62rem; color:#4CAF50; font-weight:700;
+    }
+    .metric-mini-bar {
+      margin-top:.65rem; height:2px; background:rgba(255,255,255,.05);
+      border-radius:50px; overflow:hidden;
+    }
+    .metric-mini-fill {
+      height:100%; border-radius:50px;
+      background:linear-gradient(90deg,var(--gold3),var(--gold));
+      transition:width 2s ease;
+    }
+
+    /* =============================================
+       PARTÍCULAS REACCIÓN SCROLL — ya existe canvas
+       solo añadimos clase helper
+    ============================================= */
+    .particles-fast #particles-canvas { opacity:.9; }
+
+    /* =============================================
+       HOLOGRAPHIC CARD EFFECT
+    ============================================= */
+    .card-front {
+      background:var(--card);
+      transition:border-color .3s, box-shadow .3s;
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .card-front:hover {
+        box-shadow:
+          0 0 30px rgba(201,168,76,.08),
+          inset 0 0 20px rgba(201,168,76,.03);
+      }
+    }
+
+    /* =============================================
+       ANIMACIONES MOBILE: QUITAR .anim en móvil
+    ============================================= */
+    @media (max-width:768px) {
+      .anim { opacity:1 !important; animation:none !important; }
+      .anim-1,.anim-2,.anim-3,.anim-4,.anim-5 { animation:none !important; opacity:1 !important; }
+    }
+
+    /* =============================================
        SECURITY BADGE BAR
     ============================================= */
     .security-bar {
@@ -1250,6 +1643,47 @@
     <button class="popup-close-btn" onclick="closePopup()">ENTENDIDO — INGRESAR</button>
     <p class="popup-note">Este aviso aparece una vez por visita</p>
   </div>
+</div>
+
+<!-- ===== FERROFLUID CANVAS ===== -->
+<canvas id="ferroCanvas" aria-hidden="true"></canvas>
+
+<!-- ===== RETURN VISITOR BANNER ===== -->
+<div class="return-banner" id="returnBanner">👋 Bienvenido de vuelta a AN SHOP</div>
+
+<!-- ===== SOUND BUTTON ===== -->
+<button class="sound-btn" id="soundBtn" title="Sonido ambiente" aria-label="Sonido ambiente">🔇</button>
+
+<!-- ===== BUYERS FEED ===== -->
+<div class="buyers-feed" id="buyersFeed"></div>
+
+<!-- ===== CHAT WIDGET ===== -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+      <div class="chat-avatar">🏪</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">AN SHOP</div>
+        <div class="chat-header-status">En línea ahora</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()" aria-label="Cerrar chat">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-typing" id="chatTyping">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="chat-footer">
+      <a href="https://t.me/AN_shopp" target="_blank" rel="noopener" class="chat-cta">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.024 9.532c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 14.835l-2.95-.924c-.642-.2-.654-.642.136-.95l11.527-4.444c.535-.194 1.003.13.589.731z"/></svg>
+        Abrir Telegram
+      </a>
+    </div>
+  </div>
+  <button class="chat-toggle" onclick="toggleChat()" aria-label="Chat">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+    <div class="chat-notif">1</div>
+  </button>
 </div>
 
 <!-- ===== TELEGRAM FLOAT ===== -->
@@ -1744,6 +2178,103 @@
   </div>
 </section>
 
+<!-- ===== VERIFIED BADGES ===== -->
+<section class="verified-section">
+  <div class="verified-label">Verificado en plataformas reconocidas</div>
+  <div class="verified-badges">
+    <div class="vbadge"><span class="vbadge-icon">🛡️</span> Telegram <div class="vbadge-check">✓</div></div>
+    <div class="vbadge"><span class="vbadge-icon">💳</span> PayPal <div class="vbadge-check">✓</div></div>
+    <div class="vbadge"><span class="vbadge-icon">₿</span> Binance <div class="vbadge-check">✓</div></div>
+    <div class="vbadge"><span class="vbadge-icon">🔒</span> SSL Seguro <div class="vbadge-check">✓</div></div>
+    <div class="vbadge"><span class="vbadge-icon">⚡</span> Entrega Express <div class="vbadge-check">✓</div></div>
+    <div class="vbadge"><span class="vbadge-icon">🌎</span> Latinoamérica <div class="vbadge-check">✓</div></div>
+  </div>
+</section>
+
+<!-- ===== METRICS DASHBOARD ===== -->
+<section class="metrics-section">
+  <h2 class="section-title" style="font-size:clamp(1.5rem,5vw,2.2rem);">EN TIEMPO <span style="color:var(--gold)">REAL</span></h2>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon">📦</div>
+      <div class="metric-val" id="metricOrders">0</div>
+      <div class="metric-label">Pedidos hoy</div>
+      <div class="metric-trend" id="metricOrdersTrend">+2 última hora</div>
+      <div class="metric-mini-bar"><div class="metric-mini-fill" id="mfOrders" style="width:0%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">⚡</div>
+      <div class="metric-val" id="metricDelivery">28</div>
+      <div class="metric-label">Min. entrega prom.</div>
+      <div class="metric-trend" style="color:var(--gold)">▼ rápido</div>
+      <div class="metric-mini-bar"><div class="metric-mini-fill" id="mfDelivery" style="width:0%;background:linear-gradient(90deg,#27ae60,#2ecc71)"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">😊</div>
+      <div class="metric-val" id="metricSat">97%</div>
+      <div class="metric-label">Satisfacción</div>
+      <div class="metric-trend">↑ subiendo</div>
+      <div class="metric-mini-bar"><div class="metric-mini-fill" id="mfSat" style="width:0%"></div></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon">🌐</div>
+      <div class="metric-val" id="metricCountries">17</div>
+      <div class="metric-label">Países atendidos</div>
+      <div class="metric-trend">LATAM + US</div>
+      <div class="metric-mini-bar"><div class="metric-mini-fill" id="mfCountries" style="width:0%;background:linear-gradient(90deg,#8e44ad,#9b59b6)"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SALES MAP ===== -->
+<section class="sales-map-section">
+  <div class="sales-map-header">
+    <h2 class="section-title" style="font-size:clamp(1.5rem,5vw,2.2rem);">VENTAS <span style="color:var(--gold)">EN VIVO</span></h2>
+    <p style="color:var(--muted);font-size:.8rem;margin-top:.35rem;">Compras realizadas en tiempo real desde toda Latinoamérica</p>
+  </div>
+  <div class="sales-map-wrap" style="position:relative;">
+    <svg id="salesMapSvg" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" style="background:#080808;width:100%;height:auto;display:block;">
+      <defs><pattern id="mgrid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(201,168,76,.04)" stroke-width="1"/></pattern></defs>
+      <rect width="800" height="420" fill="url(#mgrid)"/>
+      <path d="M120,60 L200,55 L215,80 L230,90 L220,110 L200,120 L180,115 L160,125 L140,120 L120,100 Z" fill="rgba(201,168,76,.08)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+      <path d="M200,120 L220,110 L225,130 L215,145 L205,150 L195,140 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M195,155 L230,150 L245,165 L240,185 L220,195 L200,185 L190,170 Z" fill="rgba(201,168,76,.08)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+      <path d="M230,150 L270,145 L285,160 L275,175 L250,175 L240,165 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M185,190 L210,185 L215,205 L200,215 L183,208 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M185,215 L225,210 L235,235 L230,265 L210,270 L190,255 L178,235 Z" fill="rgba(201,168,76,.08)" stroke="rgba(201,168,76,.2)" stroke-width="1"/>
+      <path d="M225,235 L260,230 L270,255 L260,275 L235,278 L228,258 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M255,150 L340,145 L380,170 L390,210 L375,255 L350,285 L310,295 L275,280 L255,255 L245,225 L250,190 L240,170 Z" fill="rgba(201,168,76,.1)" stroke="rgba(201,168,76,.25)" stroke-width="1.2"/>
+      <path d="M270,275 L305,270 L310,290 L290,300 L270,292 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M285,300 L315,295 L320,315 L300,325 L282,315 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.18)" stroke-width=".8"/>
+      <path d="M230,285 L275,280 L290,300 L295,335 L280,370 L260,385 L240,380 L225,360 L215,330 L218,305 Z" fill="rgba(201,168,76,.09)" stroke="rgba(201,168,76,.22)" stroke-width="1"/>
+      <path d="M195,260 L225,255 L228,290 L220,330 L210,370 L200,375 L190,350 L188,310 L190,280 Z" fill="rgba(201,168,76,.07)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M580,60 L620,55 L630,70 L615,80 L590,78 Z" fill="rgba(201,168,76,.06)" stroke="rgba(201,168,76,.15)" stroke-width=".8"/>
+      <path d="M100,20 L230,15 L245,45 L220,55 L160,58 L115,50 Z" fill="rgba(201,168,76,.05)" stroke="rgba(201,168,76,.12)" stroke-width=".8"/>
+      <text x="155" y="95" font-family="monospace" font-size="9" fill="rgba(201,168,76,.55)">MX</text>
+      <text x="310" y="225" font-family="monospace" font-size="10" fill="rgba(201,168,76,.65)">BR</text>
+      <text x="204" y="175" font-family="monospace" font-size="8" fill="rgba(201,168,76,.5)">CO</text>
+      <text x="244" y="262" font-family="monospace" font-size="8" fill="rgba(201,168,76,.5)">BO</text>
+      <text x="245" y="340" font-family="monospace" font-size="9" fill="rgba(201,168,76,.55)">AR</text>
+      <text x="291" y="312" font-family="monospace" font-size="7" fill="rgba(201,168,76,.45)">UY</text>
+      <text x="192" y="318" font-family="monospace" font-size="7" fill="rgba(201,168,76,.45)">CL</text>
+      <text x="194" y="240" font-family="monospace" font-size="7" fill="rgba(201,168,76,.45)">PE</text>
+      <text x="256" y="163" font-family="monospace" font-size="8" fill="rgba(201,168,76,.45)">VE</text>
+      <text x="157" y="32" font-family="monospace" font-size="8" fill="rgba(201,168,76,.35)">US</text>
+      <text x="587" y="70" font-family="monospace" font-size="7" fill="rgba(201,168,76,.35)">ES</text>
+    </svg>
+    <div id="mapDotsContainer" style="position:absolute;inset:0;pointer-events:none;"></div>
+  </div>
+  <div class="sales-log" id="salesLog"></div>
+</section>
+
+<!-- ===== ORDERS TODAY BAR ===== -->
+<div class="orders-today-bar" id="ordersTodayBar">
+  <div class="live-dot" style="background:#4CAF50;box-shadow:0 0 6px rgba(76,175,80,.6);"></div>
+  <span><span class="orders-num" id="ordersCount">0</span> pedidos completados hoy</span>
+  <div class="orders-bar-slots" id="ordersSlots"></div>
+  <span style="color:var(--muted);font-size:.68rem;">Cupos diarios limitados</span>
+</div>
+
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="logo-wrap">
@@ -1896,7 +2427,7 @@ const products = [
 
   // ── PAYPAL (2 originales + 2 nuevas = 4 PayPal) ──
   {
-    cat:'PAYPAL', name:'Cuenta PayPal — $350 de Saldo', price:'$45 USD',
+    cat:'PAYPAL', name:'Cuenta PayPal — $350 de Saldo', price:'$50 USD',
     badge:'TOP', logoKey:'paypal',
     desc:'Cuenta PayPal verificada con saldo disponible. Acceso completo entregado por Telegram.',
     points:['✦ Email y contraseña entregados por Telegram','✦ Cuenta verificada con saldo real','✦ Entrega en menos de 30 minutos','✦ Soporte ante cualquier inconveniente']
@@ -2455,6 +2986,499 @@ document.querySelectorAll('a,button').forEach(el => {
     if (canvas) canvas.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
   }, { passive: true });
 })();
+
+/* ================================================
+   FERROFLUIDO / METABALL EFFECT
+================================================ */
+(function() {
+  const canvas = document.getElementById('ferroCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, blobs = [], animId;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  // Crear blobs dorados
+  function createBlob() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: 60 + Math.random() * 80,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      phase: Math.random() * Math.PI * 2
+    };
+  }
+  for (let i = 0; i < 7; i++) blobs.push(createBlob());
+
+  let scrollY = 0;
+  window.addEventListener('scroll', () => { scrollY = window.scrollY; }, {passive:true});
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const t = Date.now() * 0.0005;
+
+    // Actualizar posiciones
+    blobs.forEach(b => {
+      b.x += b.vx + Math.sin(t + b.phase) * 0.3;
+      b.y += b.vy + Math.cos(t * 0.7 + b.phase) * 0.3;
+      // Wrap
+      if (b.x < -b.r) b.x = W + b.r;
+      if (b.x > W + b.r) b.x = -b.r;
+      if (b.y < -b.r) b.y = H + b.r;
+      if (b.y > H + b.r) b.y = -b.r;
+    });
+
+    // Dibujar cada blob con gradiente radial (metaball visual)
+    blobs.forEach(b => {
+      const grd = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+      grd.addColorStop(0,   'rgba(201,168,76,0.055)');
+      grd.addColorStop(0.5, 'rgba(201,168,76,0.025)');
+      grd.addColorStop(1,   'rgba(201,168,76,0)');
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+    });
+
+    // Líneas de conexión entre blobs cercanos (efecto ferrofluido)
+    for (let i = 0; i < blobs.length; i++) {
+      for (let j = i + 1; j < blobs.length; j++) {
+        const dx = blobs[j].x - blobs[i].x;
+        const dy = blobs[j].y - blobs[i].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const maxDist = 200;
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.04;
+          ctx.beginPath();
+          ctx.moveTo(blobs[i].x, blobs[i].y);
+          ctx.bezierCurveTo(
+            blobs[i].x + dx * 0.3 + dy * 0.1, blobs[i].y + dy * 0.3 - dx * 0.1,
+            blobs[j].x - dx * 0.3 + dy * 0.1, blobs[j].y - dy * 0.3 - dx * 0.1,
+            blobs[j].x, blobs[j].y
+          );
+          ctx.strokeStyle = `rgba(201,168,76,${alpha})`;
+          ctx.lineWidth = (1 - dist / maxDist) * 3;
+          ctx.stroke();
+        }
+      }
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ================================================
+   SALUDO POR HORA DEL DÍA
+================================================ */
+(function() {
+  const h = new Date().getHours();
+  let greeting, emoji;
+  if (h >= 5 && h < 12)       { greeting = 'Buenos días'; emoji = '☀️'; }
+  else if (h >= 12 && h < 19) { greeting = 'Buenas tardes'; emoji = '🌤️'; }
+  else if (h >= 19 && h < 23) { greeting = 'Buenas noches'; emoji = '🌙'; }
+  else                          { greeting = '¿Buscás algo ahora?'; emoji = '⭐'; }
+
+  // Insertar saludo en el hero
+  const eyebrow = document.querySelector('.hero-eyebrow');
+  if (eyebrow) {
+    const greetEl = document.createElement('p');
+    greetEl.className = 'hero-greeting';
+    greetEl.innerHTML = `<span class="hero-greeting-emoji">${emoji}</span> ${greeting}, bienvenido a AN SHOP`;
+    eyebrow.parentNode.insertBefore(greetEl, eyebrow);
+  }
+})();
+
+/* ================================================
+   RETURN VISITOR (localStorage)
+================================================ */
+(function() {
+  try {
+    const key = 'an_visits';
+    const visits = parseInt(localStorage.getItem(key) || '0') + 1;
+    localStorage.setItem(key, visits);
+    if (visits > 1) {
+      const banner = document.getElementById('returnBanner');
+      if (banner) {
+        setTimeout(() => {
+          banner.classList.add('show');
+          setTimeout(() => banner.classList.remove('show'), 4000);
+        }, 2500);
+      }
+    }
+  } catch(e) {}
+})();
+
+/* ================================================
+   MODO NOCHE / DÍA AUTOMÁTICO
+================================================ */
+(function() {
+  const h = new Date().getHours();
+  document.body.classList.add(h >= 7 && h < 20 ? 'day-mode' : 'night-mode');
+})();
+
+/* ================================================
+   SONIDO AMBIENTE
+================================================ */
+(function() {
+  const btn = document.getElementById('soundBtn');
+  if (!btn) return;
+  let ctx, osc1, osc2, gainNode, playing = false;
+
+  btn.addEventListener('click', () => {
+    if (!playing) {
+      try {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        gainNode = ctx.createGain();
+        gainNode.gain.setValueAtTime(0.03, ctx.currentTime);
+        gainNode.connect(ctx.destination);
+
+        // Drone oscuro dorado — dos osciladores
+        osc1 = ctx.createOscillator();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(60, ctx.currentTime);
+        osc1.connect(gainNode);
+        osc1.start();
+
+        osc2 = ctx.createOscillator();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(90, ctx.currentTime);
+        const gain2 = ctx.createGain();
+        gain2.gain.setValueAtTime(0.015, ctx.currentTime);
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.start();
+
+        playing = true;
+        btn.textContent = '🔊';
+        btn.classList.add('playing');
+      } catch(e) {}
+    } else {
+      try { osc1.stop(); osc2.stop(); ctx.close(); } catch(e) {}
+      playing = false;
+      btn.textContent = '🔇';
+      btn.classList.remove('playing');
+    }
+  });
+})();
+
+/* ================================================
+   CHAT WIDGET — TYPING INDICATOR
+================================================ */
+function toggleChat() {
+  const panel = document.getElementById('chatPanel');
+  const notif = document.querySelector('.chat-notif');
+  const isOpen = panel.classList.toggle('open');
+  if (notif) notif.style.display = 'none';
+
+  if (isOpen) {
+    const msgs = document.getElementById('chatMessages');
+    const typing = document.getElementById('chatTyping');
+    // Mostrar typing... luego mensaje
+    if (msgs.querySelectorAll('.chat-msg').length === 0) {
+      setTimeout(() => {
+        if (typing) typing.style.display = 'none';
+        const h = new Date().getHours();
+        let txt = '¡Hola! 👋 ¿En qué te puedo ayudar hoy?';
+        if (h < 8 || h > 23) txt = '¡Hola! Estamos disponibles 24/7. ¿Qué necesitás?';
+        const msg = document.createElement('div');
+        msg.className = 'chat-msg bot';
+        msg.textContent = txt;
+        msgs.appendChild(msg);
+
+        setTimeout(() => {
+          const typing2 = document.createElement('div');
+          typing2.className = 'chat-typing';
+          typing2.innerHTML = '<span></span><span></span><span></span>';
+          msgs.appendChild(typing2);
+          setTimeout(() => {
+            typing2.remove();
+            const msg2 = document.createElement('div');
+            msg2.className = 'chat-msg bot';
+            msg2.innerHTML = 'Podés ver nuestros servicios arriba o escribirnos directo por Telegram 🚀';
+            msgs.appendChild(msg2);
+          }, 1500);
+        }, 800);
+      }, 1400);
+    }
+  }
+}
+
+/* ================================================
+   MAPA DE VENTAS EN VIVO
+================================================ */
+(function() {
+  const container = document.getElementById('mapDotsContainer');
+  const log = document.getElementById('salesLog');
+  if (!container || !log) return;
+
+  // Coordenadas aproximadas (% dentro del SVG viewBox 800x420)
+  const locations = [
+    {country:'🇦🇷', name:'Argentina',  x:260, y:335, pct:[32.5, 79.8]},
+    {country:'🇧🇷', name:'Brasil',     x:320, y:215, pct:[40.0, 51.2]},
+    {country:'🇲🇽', name:'México',     x:165, y:88,  pct:[20.6, 21.0]},
+    {country:'🇺🇾', name:'Uruguay',    x:298, y:308, pct:[37.2, 73.3]},
+    {country:'🇨🇴', name:'Colombia',   x:215, y:172, pct:[26.9, 40.9]},
+    {country:'🇨🇱', name:'Chile',      x:207, y:305, pct:[25.9, 72.6]},
+    {country:'🇵🇪', name:'Perú',       x:205, y:242, pct:[25.6, 57.6]},
+    {country:'🇻🇪', name:'Venezuela',  x:258, y:160, pct:[32.2, 38.1]},
+    {country:'🇧🇴', name:'Bolivia',    x:248, y:255, pct:[31.0, 60.7]},
+    {country:'🇪🇸', name:'España',     x:603, y:66,  pct:[75.4, 15.7]},
+    {country:'🇺🇸', name:'USA',        x:165, y:32,  pct:[20.6, 7.6]},
+    {country:'🇵🇾', name:'Paraguay',   x:290, y:282, pct:[36.2, 67.1]},
+    {country:'🇪🇨', name:'Ecuador',    x:198, y:200, pct:[24.7, 47.6]},
+  ];
+
+  const productos = [
+    'Tarjeta $350','Tarjeta $500','Tarjeta $800',
+    'Cuenta PayPal $350','Cuenta PayPal $800',
+    'Cuenta Binance $600','Cuenta Binance $900',
+    'Tarjeta $1200','Cuenta PayPal $1500'
+  ];
+
+  function getRelPos(loc) {
+    // SVG is responsive: get actual rendered size
+    const svg = document.getElementById('salesMapSvg');
+    if (!svg) return {left: loc.pct[0]+'%', top: loc.pct[1]+'%'};
+    return {left: loc.pct[0]+'%', top: loc.pct[1]+'%'};
+  }
+
+  function addSale() {
+    const loc  = locations[Math.floor(Math.random() * locations.length)];
+    const prod = productos[Math.floor(Math.random() * productos.length)];
+
+    // Dot en el mapa
+    const dot = document.createElement('div');
+    dot.className = 'map-dot';
+    const pos = getRelPos(loc);
+    dot.style.left = pos.left;
+    dot.style.top  = pos.top;
+    container.appendChild(dot);
+    setTimeout(() => dot.remove(), 2200);
+
+    // Log
+    const item = document.createElement('div');
+    item.className = 'sales-log-item';
+    const hace = Math.floor(Math.random() * 12) + 1;
+    item.innerHTML = `<span class="sales-log-flag">${loc.country}</span><span>${loc.name} — <strong class="sales-log-prod">${prod}</strong></span><span class="sales-log-time">hace ${hace} min</span>`;
+    log.insertBefore(item, log.firstChild);
+    if (log.children.length > 4) log.lastChild.remove();
+  }
+
+  // Primera venta visible rápido
+  setTimeout(addSale, 2000);
+  function scheduleMapSale() {
+    const d = 12000 + Math.random() * 20000;
+    setTimeout(() => { addSale(); scheduleMapSale(); }, d);
+  }
+  scheduleMapSale();
+})();
+
+/* ================================================
+   PEDIDOS HOY (4-6 por día)
+================================================ */
+(function() {
+  const countEl = document.getElementById('ordersCount');
+  const slotsEl = document.getElementById('ordersSlots');
+  if (!countEl || !slotsEl) return;
+
+  // Seed por día para consistencia
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth()+1) * 100 + today.getDate();
+  function seeded(s) { let x = Math.sin(s * 9301 + 49297) * 233280; return x - Math.floor(x); }
+
+  const totalSlots = Math.floor(seeded(seed) * 3) + 4; // 4-6
+  const secondsNow = today.getHours()*3600 + today.getMinutes()*60 + today.getSeconds();
+  const dayFraction = secondsNow / 86400;
+  let completed = Math.floor(dayFraction * totalSlots);
+  completed = Math.max(0, Math.min(totalSlots, completed));
+
+  countEl.textContent = completed;
+
+  // Renderizar slots
+  for (let i = 0; i < totalSlots; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'slot-dot' + (i < completed ? ' filled' : '');
+    slotsEl.appendChild(dot);
+  }
+})();
+
+/* ================================================
+   BUYERS FEED — compradores recientes con nombre parcial
+================================================ */
+(function() {
+  const feed = document.getElementById('buyersFeed');
+  if (!feed) return;
+
+  const nombres = ['J***n','M***a','C***s','L***a','A***o','P***o','R***l','S***a','D***o','F***a','G***s','N***a','T***o','V***a'];
+  const paises  = ['🇦🇷','🇧🇷','🇺🇾','🇨🇱','🇲🇽','🇨🇴','🇵🇪','🇻🇪','🇪🇸','🇺🇸','🇧🇴','🇪🇨'];
+  const prods   = ['Tarjeta $350','Tarjeta $500','Cuenta PayPal','Binance $600','Tarjeta $800'];
+  const colors  = ['#c9a84c','#e8d48b','#a07830','#d4ac56'];
+
+  function showBuyer() {
+    const nombre = nombres[Math.floor(Math.random() * nombres.length)];
+    const pais   = paises[Math.floor(Math.random() * paises.length)];
+    const prod   = prods[Math.floor(Math.random() * prods.length)];
+    const color  = colors[Math.floor(Math.random() * colors.length)];
+    const inicial = nombre[0];
+
+    const pill = document.createElement('div');
+    pill.className = 'buyer-pill';
+    pill.innerHTML = `
+      <div class="buyer-avatar" style="background:${color};">${inicial}</div>
+      <span>${pais} <strong>${nombre}</strong> compró ${prod}</span>`;
+    feed.appendChild(pill);
+    setTimeout(() => {
+      pill.style.transition = 'opacity .5s';
+      pill.style.opacity = '0';
+      setTimeout(() => pill.remove(), 500);
+    }, 3500);
+  }
+
+  setTimeout(showBuyer, 6000);
+  function schedBuyer() {
+    const d = 25000 + Math.random() * 30000;
+    setTimeout(() => { showBuyer(); schedBuyer(); }, d);
+  }
+  schedBuyer();
+})();
+
+/* ================================================
+   MÉTRICAS DASHBOARD — animar al entrar en view
+================================================ */
+(function() {
+  const section = document.querySelector('.metrics-section');
+  if (!section) return;
+
+  const now = new Date();
+  const h = now.getHours();
+  const dayFrac = (h * 60 + now.getMinutes()) / (24 * 60);
+
+  // Pedidos del día (4-6)
+  const seed = now.getFullYear() * 10000 + (now.getMonth()+1) * 100 + now.getDate();
+  function seeded(s) { let x = Math.sin(s * 9301 + 49297) * 233280; return x - Math.floor(x); }
+  const totalOrders = Math.floor(seeded(seed) * 3) + 4;
+  const doneOrders = Math.floor(dayFrac * totalOrders);
+
+  const obs = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+
+    // Animar pedidos
+    const mo = document.getElementById('metricOrders');
+    if (mo) { animateCounter(mo, 0, doneOrders, 800); }
+    setTimeout(() => {
+      const mf = document.getElementById('mfOrders');
+      if (mf) mf.style.width = (doneOrders / totalOrders * 100) + '%';
+    }, 200);
+
+    // Tiempo entrega
+    setTimeout(() => {
+      const mf2 = document.getElementById('mfDelivery');
+      if (mf2) mf2.style.width = '72%';
+    }, 400);
+
+    // Satisfaccion
+    setTimeout(() => {
+      const mf3 = document.getElementById('mfSat');
+      if (mf3) mf3.style.width = '97%';
+    }, 600);
+
+    // Paises
+    setTimeout(() => {
+      const mf4 = document.getElementById('mfCountries');
+      if (mf4) mf4.style.width = '85%';
+    }, 800);
+
+  }, {threshold: 0.2});
+  obs.observe(section);
+
+  function animateCounter(el, from, to, dur) {
+    const start = Date.now();
+    function step() {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / dur, 1);
+      el.textContent = Math.round(from + (to - from) * progress);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+})();
+
+/* ================================================
+   PARTÍCULAS — reacción al scroll
+================================================ */
+(function() {
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const speed = Math.abs(window.scrollY - lastScroll);
+    lastScroll = window.scrollY;
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    if (speed > 20) {
+      hero.classList.add('particles-fast');
+      clearTimeout(window._pfTimer);
+      window._pfTimer = setTimeout(() => hero.classList.remove('particles-fast'), 500);
+    }
+  }, {passive:true});
+})();
+
+/* ================================================
+   PRECIO DINÁMICO — sube lentamente cada 10 min
+================================================ */
+(function() {
+  const prices = document.querySelectorAll('.product-price, .hero-service-price');
+  if (!prices.length) return;
+
+  const now = new Date();
+  const minutesSinceMidnight = now.getHours() * 60 + now.getMinutes();
+  const increments = Math.floor(minutesSinceMidnight / 10); // cada 10 min
+
+  prices.forEach(el => {
+    const text = el.textContent.trim();
+    const match = text.match(/\$(\d+)/);
+    if (!match) return;
+    const base = parseInt(match[1]);
+    // Subir $1 cada 10 intervalos (máx $8 al día)
+    const increase = Math.min(increments, 8);
+    if (increase > 0 && !text.includes('NO DISPONIBLE') && !text.includes('CONSULTAR')) {
+      const newPrice = base + increase;
+      // Añadir indicador visual
+      const wrap = document.createElement('span');
+      wrap.className = 'price-dynamic-wrap';
+      wrap.innerHTML = `<span class="price-rising-tag">↑ precio subiendo</span>`;
+      el.parentNode.insertBefore(wrap, el);
+      wrap.appendChild(el);
+    }
+  });
+})();
+
+/* ================================================
+   HOLOGRAPHIC TILT en cards (solo desktop)
+================================================ */
+(function() {
+  if (window.innerWidth <= 768) return;
+  document.querySelectorAll('.card-front').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width  - 0.5;
+      const y = (e.clientY - rect.top)  / rect.height - 0.5;
+      card.style.background = `
+        radial-gradient(circle at ${(x+0.5)*100}% ${(y+0.5)*100}%,
+          rgba(201,168,76,0.07) 0%, var(--card) 60%)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.background = '';
+    });
+  });
+})();
+
 </script>
 </body>
 </html>
